@@ -5,7 +5,7 @@ import { District } from './district.ts';
 import { YearRow } from '../extracts/year-row.ts';
 import { FloodAllReport, ReportSuite } from './models/reports.ts';
 import { ProblemType } from './problem-type.ts';
-import { DistrictArea } from './district-area.ts';
+import { DistrictGroup } from './district-group.ts';
 
 const AIR_QUALITY_THRESHOLD = 1;
 
@@ -15,11 +15,11 @@ export function transformReports(
   ): ReportSuite {
   const districts = extractedDistricts.map((d, i) => getDistrict(yearReports, d, i));
   
-  const all = new DistrictArea(districts);
-  const business = new DistrictArea(districts.filter(d => d.type === 'business'));
-  const suburban = new DistrictArea(districts.filter(d => d.type === 'suburban'));
-  const residence = new DistrictArea(districts.filter(d => d.type === 'residence'));
-  const thorism = new DistrictArea(districts.filter(d => d.type === 'tourism-and-cultural'));
+  const all = new DistrictGroup(districts);
+  const business = new DistrictGroup(districts.filter(d => d.type === 'business'));
+  const suburban = new DistrictGroup(districts.filter(d => d.type === 'suburban'));
+  const residence = new DistrictGroup(districts.filter(d => d.type === 'residence'));
+  const thorism = new DistrictGroup(districts.filter(d => d.type === 'tourism-and-cultural'));
 
   const test: FloodAllReport = {
     meanValuePerCapita: 0,
@@ -54,15 +54,15 @@ function getDistrict(
   return new District(id, extractedDistrict, districts);
 }
 
-function getFloodHotspots(districtArea: DistrictArea): { name: string, description: string }[] {
-  return districtArea.districts.map(d => d.floodHotspot).filter(hs => hs).reduce((p, n) => p.concat(n), []);
+function getFloodHotspots(districtGroup: DistrictGroup): { name: string, description: string }[] {
+  return districtGroup.districts.map(d => d.floodHotspot).filter(hs => hs).reduce((p, n) => p.concat(n), []);
 }
 
-function getAirSamplingCount(districtArea: DistrictArea): {
+function getAirSamplingCount(districtGroup: DistrictGroup): {
   count: number;
   aboveThresholdCount: number;
 } {
-  const samplings = districtArea.districts.map(d => getAirSampling(d)).reduce((p, n) => p.concat(n), []);
+  const samplings = districtGroup.districts.map(d => getAirSampling(d)).reduce((p, n) => p.concat(n), []);
   const aboves = samplings.filter(s => s > AIR_QUALITY_THRESHOLD);
 
   return {

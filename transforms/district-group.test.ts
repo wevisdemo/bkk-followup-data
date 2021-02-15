@@ -2,13 +2,13 @@ import {
   assertEquals,
 } from 'https://deno.land/std@0.86.0/testing/asserts.ts';
 import { District } from './district.ts';
-import { DistrictArea } from './district-area.ts';
+import { DistrictGroup } from './district-group.ts';
 import { District as ExtractedDistrict } from '../extracts/district.ts';
 import { YearRow } from '../extracts/year-row.ts';
 import { ProblemType } from './problem-type.ts';
 
-Deno.test('DistrictArea should sum every years\' budgets', () => {
-  const area = new DistrictArea([
+Deno.test('DistrictGroup should sum every years\' budgets', () => {
+  const area = new DistrictGroup([
     new District(
       0,
       {} as ExtractedDistrict,
@@ -30,8 +30,8 @@ Deno.test('DistrictArea should sum every years\' budgets', () => {
   assertEquals(area.getProblemBudgets(ProblemType.Air), { 2555: 110, 2556: 220 });
 });
 
-Deno.test('DistrictArea GetAllRankings should return rankings by district', () => {
-  const rankings = new DistrictArea([
+Deno.test('DistrictGroup GetAllRankings should return rankings by district', () => {
+  const rankings = new DistrictGroup([
     new District(
       0,
       mockExtractedDistrict('Zero'), 
@@ -52,8 +52,8 @@ Deno.test('DistrictArea GetAllRankings should return rankings by district', () =
   ], rankings);
 });
 
-Deno.test('DistrictArea GetAllRankings should return rankings by district using custom sort by value getter', () => {
-  const rankings = new DistrictArea([
+Deno.test('DistrictGroup GetAllRankings should return rankings by district using custom sort by value getter', () => {
+  const rankings = new DistrictGroup([
     new District(
       0,
       mockExtractedDistrict('Zero'), 

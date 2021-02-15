@@ -3,7 +3,7 @@ import { District } from './district.ts';
 import { ProblemType } from './problem-type.ts';
 import { ReportBudgetable } from './report-budgetable.ts';
 
-export class DistrictArea extends ReportBudgetable {
+export class DistrictGroup extends ReportBudgetable {
   constructor(
     public readonly districts: District[],
   ) {
