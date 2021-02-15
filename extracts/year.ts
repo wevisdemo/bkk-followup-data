@@ -3,7 +3,7 @@ import { parse, ColumnOptions } from 'https://deno.land/std@0.86.0/encoding/csv.
 import { YearRow } from './year-row.ts';
 import { numberParser } from './utils.ts';
 
-export async function extractYear(csvPath: string): Promise<YearReport> {
+export async function extractYear(csvPath: string, year: number): Promise<YearReport> {
   const raw = await (await fetch(csvPath)).text();
   const rows = await parse(raw, {
     skipFirstRow: true,
@@ -12,6 +12,7 @@ export async function extractYear(csvPath: string): Promise<YearReport> {
   }) as YearRow[];
 
   return {
+    year,
     all: rows[1],
     districts: rows.splice(2),
   };

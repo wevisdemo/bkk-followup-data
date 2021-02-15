@@ -3,7 +3,6 @@ import { numberParser } from './utils.ts';
 
 export async function extractDistricts(csvPath: string): Promise<District[]> {
   const raw = await (await fetch(csvPath)).text();
-  console.log(raw);
   const districts = await parse(raw, {
     skipFirstRow: true,
     columns: columnOptions,
@@ -35,7 +34,7 @@ function districtParser(i: unknown): District {
     type: casted['group'] as DistrictAreaType,
     publicGreenSpace: casted['access_green'] as number,
     floodHotspot: 
-      (casted['flood_spot']  as string[])?.map((e: string) => ({
+      (casted['flood_spot'] as string[])?.map((e: string) => ({
         name: e.split(',')[0].trim(),
         description: e.split(',')[1].trim(),
       })),
