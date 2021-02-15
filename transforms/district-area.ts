@@ -1,3 +1,4 @@
+import { YearRow } from '../extracts/year-row.ts';
 import { District } from './district.ts';
 import { ProblemType } from './problem-type.ts';
 import { ReportBudgetable } from './report-budgetable.ts';
@@ -79,23 +80,28 @@ export class DistrictArea extends ReportBudgetable {
     return budgets;
   }
 
-  getAllRankings(problem: ProblemType): {
+  getAllRankings(problem: ProblemType, rankedByValueGetter?: (yr: YearRow) => number | null): {
     ranked: number;
     districtId: number;
     districtName: string;
     value: number;
   }[] {
+
+    if (!rankedByValueGetter) {
+      rankedByValueGetter = (yr: YearRow) => District.valueOfRow(yr, problem);
+    }
+
     const sorted = this.districts
-      .filter(d => d.latestYear[problem] !== null)
+      .filter(d => rankedByValueGetter!(d.latestYear) !== null)
       .sort((a, b) => 
-        (a.latestYear[problem] || 0)  - (b.latestYear[problem] || 0)
+        (rankedByValueGetter!(a.latestYear) || 0)  - (rankedByValueGetter!(b.latestYear) || 0)
       );
   
     return sorted.map((d, i) => ({
       ranked: i + 1,
       districtId: d.id,
       districtName: d.name,
-      value: d.latestYear[problem]!,
+      value: rankedByValueGetter!(d.latestYear)!,
     }));
   }
 }

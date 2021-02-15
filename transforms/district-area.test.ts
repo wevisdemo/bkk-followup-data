@@ -52,6 +52,26 @@ Deno.test('DistrictArea GetAllRankings should return rankings by district', () =
   ], rankings);
 });
 
+Deno.test('DistrictArea GetAllRankings should return rankings by district using custom sort by value getter', () => {
+  const rankings = new DistrictArea([
+    new District(
+      0,
+      mockExtractedDistrict('Zero'), 
+      { 2555: { ...new YearRow(),  floodData1: 10, floodData2: 40 } }
+    ),
+    new District(
+      1,
+      mockExtractedDistrict('One'), 
+      { 2555: { ...new YearRow(),  floodData1: 20, floodData2: 30 } }
+    )
+  ]).getAllRankings(ProblemType.Green, (yr: YearRow) => yr.floodData2 );
+
+  assertEquals([
+    { ranked: 1, districtId: 1, districtName: 'One', value: 30 },
+    { ranked: 2, districtId: 0, districtName: 'Zero', value: 40 },
+  ], rankings);
+});
+
 function mockExtractedDistrict(name: string): ExtractedDistrict {
   return { 
     district: name,

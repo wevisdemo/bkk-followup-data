@@ -47,3 +47,18 @@ Deno.test('District getRankings should return rankings in term of years', () => 
     { ranked: 2, year: 2555, value: 400 },
   ]);
 });
+
+Deno.test('District getRankings should return rankings with custom rank function', () => {
+  const dis = new District(
+    0,
+    {} as ExtractedDistrict,
+    {
+      2555: { ...new YearRow(), floodData1: 1100, floodData2: 2000 },
+      2556: { ...new YearRow(), floodData1: 1200, floodData2: 1000 },
+    }
+  );
+  assertEquals(dis.getRankings(ProblemType.Flood, (yr) => yr.floodData2 ), [
+    { ranked: 1, year: 2556, value: 1000 },
+    { ranked: 2, year: 2555, value: 2000 },
+  ]);
+});

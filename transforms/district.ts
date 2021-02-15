@@ -14,7 +14,7 @@ export class District extends ReportBudgetable {
   mins: {[key in ProblemType]: { year: number, value: number } | null};
   maxes: {[key in ProblemType]: { year: number, value: number } | null};
   budgets: {[key in ProblemType | 'all']: { [key:number]: number }};
-  latestYear: {[key in ProblemType]: number | null};
+  latestYear: YearRow;
 
   constructor(
     public id: number,
@@ -30,7 +30,7 @@ export class District extends ReportBudgetable {
     this.mins = this.generateMins();
     this.maxes = this.generateMaxes();
     this.budgets = this.generateBudgets();
-    this.latestYear = this.generateLatestYear();
+    this.latestYear = this.years[this.getLatestYear()];
   }
 
 
@@ -65,23 +65,11 @@ export class District extends ReportBudgetable {
     };
   }
 
-  private generateLatestYear(): {[key in ProblemType]: number | null} {
-    const theYear = this.getLatestYear();
-
-    return {
-      [ProblemType.Flood]: this.valueOfYear(theYear, ProblemType.Flood),
-      [ProblemType.Waste]: this.valueOfYear(theYear, ProblemType.Waste),
-      [ProblemType.Green]: this.valueOfYear(theYear, ProblemType.Green),
-      [ProblemType.Water]: this.valueOfYear(theYear, ProblemType.Water),
-      [ProblemType.Air]: this.valueOfYear(theYear, ProblemType.Air),
-    };
-  }
-
   private getMinimumValue(problem: ProblemType): { year: number, value: number } | null {
     let min = Number.MAX_VALUE;
     let minYear = 0;
     for (const year in this.years) {
-      const value = this.valueOfRow(this.years[year], problem);
+      const value = District.valueOfRow(this.years[year], problem);
       if (value === null) continue;
       if (value < min) {
         min = value;
@@ -97,7 +85,7 @@ export class District extends ReportBudgetable {
     let max = Number.MIN_VALUE;
     let maxYear = 0;
     for (const year in this.years) {
-      const value = this.valueOfRow(this.years[year], problem);
+      const value = District.valueOfRow(this.years[year], problem);
       if (value === null) continue;
       if (value > max) {
         max = value;
@@ -119,10 +107,10 @@ export class District extends ReportBudgetable {
   }
 
   valueOfYear(year: number, problem: ProblemType): number | null {
-    return this.valueOfRow(this.years[year], problem);
+    return District.valueOfRow(this.years[year], problem);
   }
 
-  valueOfRow(year: YearRow, problem: ProblemType): number | null {
+  static valueOfRow(year: YearRow, problem: ProblemType): number | null {
     switch (problem) {
       case ProblemType.Flood:
         return year.floodData1;
@@ -154,7 +142,7 @@ export class District extends ReportBudgetable {
     }
   }
   
-  getRankings(problem: ProblemType): {
+  getRankings(problem: ProblemType, rankedByValueGetter?: (yr: YearRow) => number | null): {
 		ranked: number;
 		year: number;
 		value: number | null;
@@ -163,7 +151,7 @@ export class District extends ReportBudgetable {
     for (const year in this.years) {
       rankings.push({
         year: parseInt(year),
-        value: this.valueOfYear(parseInt(year), problem),
+        value: rankedByValueGetter ? rankedByValueGetter(this.years[year]) : this.valueOfYear(parseInt(year), problem),
       });
     }
     return rankings
