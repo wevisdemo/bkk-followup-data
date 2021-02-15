@@ -11,8 +11,8 @@ Deno.test('District should set mins & maxes for each problems', () => {
     0,
     {} as ExtractedDistrict,
     {
-      2555: { ...new YearRow(), floodData: 1 },
-      2556: { ...new YearRow(), floodData: 2 },
+      2555: { ...new YearRow(), floodData1: 1 },
+      2556: { ...new YearRow(), floodData1: 2 },
     }
   );
 

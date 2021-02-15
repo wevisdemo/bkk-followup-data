@@ -1,5 +1,5 @@
 import { parse, ColumnOptions } from 'https://deno.land/std@0.86.0/encoding/csv.ts';
-import { numberParser } from './utils.ts';
+import { districtTypeParser, numberParser } from './utils.ts';
 
 export async function extractDistricts(csvPath: string): Promise<District[]> {
   const raw = await (await fetch(csvPath)).text();
@@ -73,20 +73,6 @@ const columnOptions: ColumnOptions[] = [
     parse: numberParser,
   },
 ];
-
-function districtTypeParser(i: string): DistrictAreaType {
-  switch (i) {
-    case 'พื้นที่ศูนย์กลางธุรกิจและพาณิชยกรรม':
-      return 'business';
-    case 'พื้นที่อนุรักษ์ศิลปวัฒนธรรมและส่งเสริมการท่องเที่ยว':
-      return 'tourism-and-cultural';
-    case 'พื้นที่อยู่อาศัยชานเมือง':
-      return 'suburban';
-    case 'พื้นที่อยู่อาศัย':
-      return 'residence';
-  }
-  return null;
-}
 
 function floodSpotParser(i: string): string[] | null {
   if (i.length === 0) {

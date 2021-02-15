@@ -1,7 +1,10 @@
 import { YearReport } from './year-report.ts';
 import { parse, ColumnOptions } from 'https://deno.land/std@0.86.0/encoding/csv.ts';
 import { YearRow } from './year-row.ts';
-import { numberParser } from './utils.ts';
+import { districtTypeParser, numberParser } from './utils.ts';
+
+const HEADER_ROW_COUNT = 2;
+const DISTRICT_GROUP_COUNT = 4;
 
 export async function extractYear(csvPath: string, year: number): Promise<YearReport> {
   const raw = await (await fetch(csvPath)).text();
@@ -14,7 +17,10 @@ export async function extractYear(csvPath: string, year: number): Promise<YearRe
   return {
     year,
     all: rows[1],
-    districts: rows.splice(2),
+    districts: rows.splice(2, rows.length - HEADER_ROW_COUNT - DISTRICT_GROUP_COUNT),
+    districtGroups: rows
+      .splice(rows.length - DISTRICT_GROUP_COUNT)
+      .map(r => ({ ...r, district: districtTypeParser(r.district!) as string })),
   };
 }
 
@@ -24,7 +30,7 @@ function yearRowParser(i: unknown): YearRow {
     district: casted['dist'] as string,
     budgetTotal: casted['budget_total'] as number | null,
     floodBudget: casted['flood_bud'] as number | null,
-    floodData: casted['flood_data'] as number | null,
+    floodData1: casted['flood_data1'] as number | null,
     wasteBudget: casted['waste_bud'] as number | null,
     wasteData: casted['waste_data'] as number | null,
     greenBudget: casted['green_bud'] as number | null,
@@ -33,6 +39,7 @@ function yearRowParser(i: unknown): YearRow {
     waterData: casted['water_data'] as number | null,
     airBudget: casted['air_bud'] as number | null,
     airData: casted['air_data'] as number | null,
+    floodData2: casted['flood_data2'] as number | null,
   };
 }
 
@@ -49,7 +56,7 @@ const columnOptions: ColumnOptions[] = [
     parse: numberParser,
   },
   {
-    name: 'flood_data',
+    name: 'flood_data1',
     parse: numberParser,
   },
   {
@@ -82,6 +89,10 @@ const columnOptions: ColumnOptions[] = [
   },
   {
     name: 'air_data',
+    parse: numberParser,
+  },
+  {
+    name: 'flood_data2',
     parse: numberParser,
   },
 ];
