@@ -66,13 +66,24 @@ export interface ReportSuite {
     [ProblemType.Green]: GreenAllReport,
     [ProblemType.Water]: WaterAllReport,
     [ProblemType.Air]: AirAllReport,
-  },
-  districts: { [key in DistrictAreaType]: {
+  };
+  areas: { [key in DistrictAreaType]: {
       [ProblemType.Flood]: FloodDistrictAreaReport,
       [ProblemType.Waste]: WasteDistrictAreaReport,
       [ProblemType.Green]: GreenDistrictAreaReport,
       [ProblemType.Water]: WaterDistrictAreaReport,
       [ProblemType.Air]: AirDistrictAreaReport,
     }
-  },
+  };
+  districts: {
+    id: number,
+    name: string,
+    problems: {
+      [ProblemType.Flood]: FloodSingleDistrictReport,
+      [ProblemType.Waste]: WasteSingleDistrictReport,
+      [ProblemType.Green]: GreenSingleDistrictReport,
+      [ProblemType.Water]: WaterSingleDistrictReport,
+      [ProblemType.Air]: AirSingleDistrictReport,
+    }
+  }[];
 }

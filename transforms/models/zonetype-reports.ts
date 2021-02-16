@@ -16,7 +16,7 @@ export interface SingleDistrictReport {
 	rankings: {
 		ranked: number;
 		year: number;
-		value: number;
+		value: number | null;
 	}[];
 }
 

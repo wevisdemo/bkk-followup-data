@@ -4,11 +4,16 @@ import { DistrictGroup } from './district-group.ts';
 
 const AIR_QUALITY_THRESHOLD = 1;
 
-export function getAirSamplingCount(districtGroup: DistrictGroup): {
+export function getAirSamplingCount(entity: DistrictGroup | District): {
   count: number;
   aboveThresholdCount: number;
 } {
-  const samplings = districtGroup.districts.map(d => getAirSampling(d)).reduce((p, n) => p.concat(n), []);
+  let samplings: number[] = [];
+  if (entity instanceof District) {
+    samplings = getAirSampling(entity);
+  } else {
+    samplings = entity.districts.map(d => getAirSampling(d)).reduce((p, n) => p.concat(n), []);
+  }
   const aboves = samplings.filter(s => s > AIR_QUALITY_THRESHOLD);
 
   return {

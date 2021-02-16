@@ -40,6 +40,14 @@ export class District extends ReportBudgetable {
     };
   }
 
+  getValuePerYear(problem: ProblemType): { [key: number]: number | null } {
+    const valuePerYear = {} as { [key: number]: number | null };
+    for (const year in this.years) {
+      valuePerYear[parseInt(year)] = this.years[year].getValueOf(problem);
+    }
+    return valuePerYear;
+  }
+
   getMinimumValue(problem: ProblemType, rankedByValueGetter?: (yr: YearRow) => number | null):
     { year: number, value: number } | null {
     let min = Number.MAX_VALUE;
