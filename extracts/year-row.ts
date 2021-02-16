@@ -2,7 +2,7 @@ export class YearRow {
   district?: string;
   budgetTotal: number | null = null;
   floodBudget: number | null = null;
-  floodData1: number | null = null;
+  floodFrequency: number | null = null;
   wasteBudget: number | null = null;
   wasteData: number | null = null;
   greenBudget: number | null = null;
@@ -11,5 +11,5 @@ export class YearRow {
   waterData: number | null = null;
   airBudget: number | null = null;
   airData: number | null = null;
-  floodData2: number | null = null;
+  floodWaterLevel: number | null = null;
 }

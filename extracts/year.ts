@@ -30,7 +30,7 @@ function yearRowParser(i: unknown): YearRow {
     district: casted['dist'] as string,
     budgetTotal: casted['budget_total'] as number | null,
     floodBudget: casted['flood_bud'] as number | null,
-    floodData1: casted['flood_data1'] as number | null,
+    floodFrequency: casted['flood_data1'] as number | null,
     wasteBudget: casted['waste_bud'] as number | null,
     wasteData: casted['waste_data'] as number | null,
     greenBudget: casted['green_bud'] as number | null,
@@ -39,7 +39,7 @@ function yearRowParser(i: unknown): YearRow {
     waterData: casted['water_data'] as number | null,
     airBudget: casted['air_bud'] as number | null,
     airData: casted['air_data'] as number | null,
-    floodData2: casted['flood_data2'] as number | null,
+    floodWaterLevel: casted['flood_data2'] as number | null,
   };
 }
 

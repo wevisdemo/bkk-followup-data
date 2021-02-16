@@ -28,11 +28,11 @@ export function transformReports(
     maximumPoint: all.getMax(ProblemType.Flood),
     budgetPerYear: all.getReportBudgets(ProblemType.Flood),
     budgetOverall: all.getOverallReportBudget(ProblemType.Flood),
-    rankings: all.getAllRankings(ProblemType.Flood, yr => yr.floodData1),
+    rankings: all.getAllRankings(ProblemType.Flood, yr => yr.floodFrequency),
     floodHotspots: getFloodHotspots(all),
     benchmarks: [],
     frequency: yearReports
-      .map(r => r.all.floodData1)
+      .map(r => r.all.floodFrequency)
       .reduce((prev, next) => (prev || 0) + (next || 0), 0) || 0,
   };
 
@@ -43,11 +43,11 @@ export function transformReports(
     maximumPoint: residence.getMax(ProblemType.Flood),
     budgetPerYear: residence.getReportBudgets(ProblemType.Flood),
     budgetOverall: residence.getOverallReportBudget(ProblemType.Flood),
-    rankings: residence.getAllRankings(ProblemType.Flood, yr => yr.floodData1),
+    rankings: residence.getAllRankings(ProblemType.Flood, yr => yr.floodFrequency),
     floodHotspots: getFloodHotspots(residence),
     benchmarks: [],
     frequency: yearReports
-      .map(r => r.districtGroups.find(g => g.district === 'residence')?.floodData1)
+      .map(r => r.districtGroups.find(g => g.district === 'residence')?.floodFrequency)
       .reduce((prev, next) => (prev || 0) + (next || 0), 0) || 0,
   };
 

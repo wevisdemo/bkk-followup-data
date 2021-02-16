@@ -57,14 +57,14 @@ Deno.test('DistrictGroup GetAllRankings should return rankings by district using
     new District(
       0,
       mockExtractedDistrict('Zero'), 
-      { 2555: { ...new YearRow(),  floodData1: 10, floodData2: 40 } }
+      { 2555: { ...new YearRow(),  floodFrequency: 10, floodWaterLevel: 40 } }
     ),
     new District(
       1,
       mockExtractedDistrict('One'), 
-      { 2555: { ...new YearRow(),  floodData1: 20, floodData2: 30 } }
+      { 2555: { ...new YearRow(),  floodFrequency: 20, floodWaterLevel: 30 } }
     )
-  ]).getAllRankings(ProblemType.Green, (yr: YearRow) => yr.floodData2 );
+  ]).getAllRankings(ProblemType.Green, (yr: YearRow) => yr.floodWaterLevel );
 
   assertEquals([
     { ranked: 1, districtId: 1, districtName: 'One', value: 30 },
