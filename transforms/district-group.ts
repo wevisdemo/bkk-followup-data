@@ -17,10 +17,10 @@ export class DistrictGroup extends ReportBudgetable {
     value: number,
   } | null {
     let minDistrict = this.districts[0];
-    let min = this.districts[0].mins[problem];
+    let min = this.districts[0].getMinimumValue(problem);
 
     for (const district of this.districts) {
-      const localMin = district.mins[problem];
+      const localMin = district.getMinimumValue(problem);
       if (localMin === null) continue;
       if (min === null || localMin.value < min.value) {
         minDistrict = district;
@@ -45,10 +45,10 @@ export class DistrictGroup extends ReportBudgetable {
     value: number,
   } | null {
     let maxDistrict = this.districts[0];
-    let max = this.districts[0].maxes[problem];
+    let max = this.districts[0].getMaximumValue(problem);
 
     for (const district of this.districts) {
-      const localMax = district.maxes[problem];
+      const localMax = district.getMaximumValue(problem);
       if (!localMax) continue;
       if (max === null || localMax.value > max.value) {
         maxDistrict = district;

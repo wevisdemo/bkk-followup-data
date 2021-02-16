@@ -6,7 +6,7 @@ import { ProblemType } from './problem-type.ts';
 import { District as ExtractedDistrict } from '../extracts/district.ts';
 import { YearRow } from '../extracts/year-row.ts';
 
-Deno.test('District should set mins & maxes for each problems', () => {
+Deno.test('District getMin and getMax should return correct min and max', () => {
   const dis = new District(
     0,
     {} as ExtractedDistrict,
@@ -16,8 +16,22 @@ Deno.test('District should set mins & maxes for each problems', () => {
     }
   );
 
-  assertEquals(dis.mins[ProblemType.Flood], { year: 2555, value: 1 });
-  assertEquals(dis.maxes[ProblemType.Flood], { year: 2556, value: 2 });
+  assertEquals(dis.getMinimumValue(ProblemType.Flood), { year: 2555, value: 1 });
+  assertEquals(dis.getMaximumValue(ProblemType.Flood), { year: 2556, value: 2 });
+});
+
+Deno.test('District getMin and getMax should be able to use custom sort function', () => {
+  const dis = new District(
+    0,
+    {} as ExtractedDistrict,
+    {
+      2555: { ...new YearRow(), floodWaterLevel: 15 },
+      2556: { ...new YearRow(), floodWaterLevel: 10 },
+    }
+  );
+
+  assertEquals(dis.getMinimumValue(ProblemType.Flood, yr => yr.floodWaterLevel), { year: 2556, value: 10 });
+  assertEquals(dis.getMaximumValue(ProblemType.Flood, yr => yr.floodWaterLevel), { year: 2555, value: 15 });
 });
 
 Deno.test('District should set budgets for each problems and all', () => {

@@ -11,8 +11,6 @@ export class District extends ReportBudgetable {
     name: string;
 		description: string;
   }[];
-  mins: {[key in ProblemType]: { year: number, value: number } | null};
-  maxes: {[key in ProblemType]: { year: number, value: number } | null};
   budgets: {[key in ProblemType | 'all']: { [key:number]: number }};
   latestYear: YearRow;
 
@@ -27,31 +25,8 @@ export class District extends ReportBudgetable {
     this.publicGreenSpace = district.publicGreenSpace;
     this.floodHotspot = district.floodHotspot;
 
-    this.mins = this.generateMins();
-    this.maxes = this.generateMaxes();
     this.budgets = this.generateBudgets();
     this.latestYear = this.years[this.getLatestYear()];
-  }
-
-
-  private generateMins(): {[key in ProblemType]: { year: number, value: number } | null} {
-    return {
-      [ProblemType.Flood]: this.getMinimumValue(ProblemType.Flood),
-      [ProblemType.Waste]: this.getMinimumValue(ProblemType.Waste),
-      [ProblemType.Green]: this.getMinimumValue(ProblemType.Green),
-      [ProblemType.Water]: this.getMinimumValue(ProblemType.Water),
-      [ProblemType.Air]: this.getMinimumValue(ProblemType.Air),
-    };
-  }
-
-  private generateMaxes(): {[key in ProblemType]: { year: number, value: number } | null} {
-    return {
-      [ProblemType.Flood]: this.getMaximumValue(ProblemType.Flood),
-      [ProblemType.Waste]: this.getMaximumValue(ProblemType.Waste),
-      [ProblemType.Green]: this.getMaximumValue(ProblemType.Green),
-      [ProblemType.Water]: this.getMaximumValue(ProblemType.Water),
-      [ProblemType.Air]: this.getMaximumValue(ProblemType.Air),
-    };
   }
 
   private generateBudgets(): {[key in ProblemType | 'all']: { [key:number]: number }} {
@@ -65,11 +40,14 @@ export class District extends ReportBudgetable {
     };
   }
 
-  private getMinimumValue(problem: ProblemType): { year: number, value: number } | null {
+  getMinimumValue(problem: ProblemType, rankedByValueGetter?: (yr: YearRow) => number | null):
+    { year: number, value: number } | null {
     let min = Number.MAX_VALUE;
     let minYear = 0;
     for (const year in this.years) {
-      const value = District.valueOfRow(this.years[year], problem);
+      const value = rankedByValueGetter
+        ? rankedByValueGetter(this.years[year])
+        : District.valueOfRow(this.years[year], problem);
       if (value === null) continue;
       if (value < min) {
         min = value;
@@ -81,11 +59,14 @@ export class District extends ReportBudgetable {
     return { value: min, year: minYear };
   }
 
-  private getMaximumValue(problem: ProblemType): { year: number, value: number } | null {
+  getMaximumValue(problem: ProblemType, rankedByValueGetter?: (yr: YearRow) => number | null)
+    : { year: number, value: number } | null {
     let max = Number.MIN_VALUE;
     let maxYear = 0;
     for (const year in this.years) {
-      const value = District.valueOfRow(this.years[year], problem);
+      const value = rankedByValueGetter
+      ? rankedByValueGetter(this.years[year])
+      : District.valueOfRow(this.years[year], problem);
       if (value === null) continue;
       if (value > max) {
         max = value;
@@ -110,19 +91,25 @@ export class District extends ReportBudgetable {
     return District.valueOfRow(this.years[year], problem);
   }
 
+  static valueOfRowGetter(problem: ProblemType) {
+    return (yr: YearRow) => {
+      switch (problem) {
+        case ProblemType.Flood:
+          return yr.floodFrequency;
+        case ProblemType.Waste:
+          return yr.wasteData;
+        case ProblemType.Green:
+          return yr.greenData;
+        case ProblemType.Water:
+          return yr.waterData;
+        case ProblemType.Air:
+          return yr.airData;
+      }
+    };
+  }
+
   static valueOfRow(year: YearRow, problem: ProblemType): number | null {
-    switch (problem) {
-      case ProblemType.Flood:
-        return year.floodFrequency;
-      case ProblemType.Waste:
-        return year.wasteData;
-      case ProblemType.Green:
-        return year.greenData;
-      case ProblemType.Water:
-        return year.waterData;
-      case ProblemType.Air:
-        return year.airData;
-    }
+    return District.valueOfRowGetter(problem)(year);
   }
 
   budgetOfRow(year: YearRow, problem: ProblemType | 'all'): number | null {
