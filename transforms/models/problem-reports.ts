@@ -3,14 +3,20 @@ export interface FloodReport {
 		name: string;
 		description: string;
 	}[]; // [{ name: "ถนนรัชดาภิเษก", description: "บริเวณหน้าธนาคารกรุงเทพ" }]
-	frequency: number;
+	meanFloodLevel: number | null;
+	meanFloodLevelMaximumPoint: {
+		year: number;
+		districtId: number;
+		districtName: string;
+		value: number;
+	};
 }
 
 // deno-lint-ignore no-empty-interface
 export interface WasteReport {}
 
 export interface GreenReport {
-	publicGreenSpacePerCapita: number;
+	publicGreenSpacePerCapita: number | null;
 }
 
 // deno-lint-ignore no-empty-interface

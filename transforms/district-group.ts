@@ -10,17 +10,17 @@ export class DistrictGroup extends ReportBudgetable {
     super();
   }
 
-  getMin(problem: ProblemType): {
+  getMin(problem: ProblemType, rankedByValueGetter?: (yr: YearRow) => number | null): {
     districtId: number,
     districtName: string,
     year: number,
     value: number,
-  } | null {
+  } {
     let minDistrict = this.districts[0];
-    let min = this.districts[0].getMinimumValue(problem);
+    let min = this.districts[0].getMinimumValue(problem, rankedByValueGetter);
 
     for (const district of this.districts) {
-      const localMin = district.getMinimumValue(problem);
+      const localMin = district.getMinimumValue(problem, rankedByValueGetter);
       if (localMin === null) continue;
       if (min === null || localMin.value < min.value) {
         minDistrict = district;
@@ -28,27 +28,25 @@ export class DistrictGroup extends ReportBudgetable {
       }
     }
 
-    if (!min) return null;
-
     return {
       districtId: minDistrict.id,
       districtName: minDistrict.name,
-      year: min.year,
-      value: min.value,
+      year: min!.year,
+      value: min!.value,
     };
   }
 
-  getMax(problem: ProblemType): {
+  getMax(problem: ProblemType, rankedByValueGetter?: (yr: YearRow) => number | null): {
     districtId: number,
     districtName: string,
     year: number,
     value: number,
-  } | null {
+  } {
     let maxDistrict = this.districts[0];
-    let max = this.districts[0].getMaximumValue(problem);
+    let max = this.districts[0].getMaximumValue(problem, rankedByValueGetter);
 
     for (const district of this.districts) {
-      const localMax = district.getMaximumValue(problem);
+      const localMax = district.getMaximumValue(problem, rankedByValueGetter);
       if (!localMax) continue;
       if (max === null || localMax.value > max.value) {
         maxDistrict = district;
@@ -56,13 +54,11 @@ export class DistrictGroup extends ReportBudgetable {
       }
     }
 
-    if (!max) return null;
-
     return {
       districtId: maxDistrict.id,
       districtName: maxDistrict.name,
-      year: max.year,
-      value: max.value,
+      year: max!.year,
+      value: max!.value,
     };
   }
 

@@ -1,6 +1,6 @@
 export interface BaseReport {
-	value: number;
-	valuePerYear: {[key: number]: number}; // { "2555": 1.60 }
+	value: number | null;
+	valuePerYear: {[key: number]: number | null}; // { "2555": 1.60 }
 	minimumPoint: {
 		year: number;
 		districtId: number;
