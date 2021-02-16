@@ -6,6 +6,7 @@ import { ReportBudgetable } from './report-budgetable.ts';
 export class DistrictGroup extends ReportBudgetable {
   constructor(
     public readonly districts: District[],
+    public readonly name: string,
   ) {
     super();
   }

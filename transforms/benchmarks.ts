@@ -1,22 +1,23 @@
 import { YearReport } from '../extracts/year-report.ts';
 import { ProblemType } from '../models/problem-type.ts';
+import { DistrictAreaType } from './district-area.ts';
 import { DistrictAreaBenchmark } from './models/zonetype-reports.ts';
 
 export function getBenchmarks(latestYearReport: YearReport) {
   return {
-    floodBenchmarks: getBenchmark(latestYearReport, ProblemType.Flood),
-    wasteBenchmarks: getBenchmark(latestYearReport, ProblemType.Waste),
-    greenBenchmarks: getBenchmark(latestYearReport, ProblemType.Green),
-    waterBenchmarks: getBenchmark(latestYearReport, ProblemType.Waste),
-    airBenchmarks: getBenchmark(latestYearReport, ProblemType.Air),
+    [ProblemType.Flood]: getBenchmark(latestYearReport, ProblemType.Flood),
+    [ProblemType.Waste]: getBenchmark(latestYearReport, ProblemType.Waste),
+    [ProblemType.Green]: getBenchmark(latestYearReport, ProblemType.Green),
+    [ProblemType.Water]: getBenchmark(latestYearReport, ProblemType.Water),
+    [ProblemType.Air]: getBenchmark(latestYearReport, ProblemType.Air),
   };
 }
 
 function getBenchmark(latestYearReport: YearReport, problem: ProblemType): DistrictAreaBenchmark[] {
-  const latestResidence = latestYearReport.districtGroups.find(g => g.district === 'residence');
-  const latestSuburban = latestYearReport.districtGroups.find(g => g.district === 'suburban');
-  const latestTourism = latestYearReport.districtGroups.find(g => g.district === 'tourism-and-cultural');
-  const latestBusiness = latestYearReport.districtGroups.find(g => g.district === 'business');
+  const latestResidence = latestYearReport.districtGroups.find(g => g.district === DistrictAreaType.Residence);
+  const latestSuburban = latestYearReport.districtGroups.find(g => g.district === DistrictAreaType.Suburban);
+  const latestTourism = latestYearReport.districtGroups.find(g => g.district === DistrictAreaType.Tourism);
+  const latestBusiness = latestYearReport.districtGroups.find(g => g.district === DistrictAreaType.Business);
 
   return [
     {

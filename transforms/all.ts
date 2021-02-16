@@ -10,13 +10,7 @@ export function getAlls(
   all: DistrictGroup,
   yearReports: YearReport[],
   latestYearReport: YearReport,
-  benchmarks: {
-    floodBenchmarks: DistrictAreaBenchmark[],
-    wasteBenchmarks: DistrictAreaBenchmark[],
-    greenBenchmarks: DistrictAreaBenchmark[],
-    waterBenchmarks: DistrictAreaBenchmark[],
-    airBenchmarks: DistrictAreaBenchmark[],
-  }
+  benchmarks: {[key in ProblemType]: DistrictAreaBenchmark[] },
   ) {
 
   const floodAll: FloodAllReport = {
@@ -28,7 +22,7 @@ export function getAlls(
     budgetOverall: all.getOverallReportBudget(ProblemType.Flood),
     rankings: all.getAllRankings(ProblemType.Flood),
     floodHotspots: getFloodHotspots(all),
-    benchmarks: benchmarks.floodBenchmarks,
+    benchmarks: benchmarks[ProblemType.Flood],
     meanFloodLevel: latestYearReport.all.floodWaterLevel,
     meanFloodLevelMaximumPoint: all.getMin(ProblemType.Flood, yr => yr.floodWaterLevel),
   };
@@ -41,7 +35,7 @@ export function getAlls(
     budgetPerYear: all.getReportBudgets(ProblemType.Waste),
     budgetOverall: all.getOverallReportBudget(ProblemType.Waste),
     rankings: all.getAllRankings(ProblemType.Waste),
-    benchmarks: benchmarks.wasteBenchmarks,
+    benchmarks: benchmarks[ProblemType.Waste],
   };
 
   const greenAll: GreenAllReport = {
@@ -52,7 +46,7 @@ export function getAlls(
     budgetPerYear: all.getReportBudgets(ProblemType.Green),
     budgetOverall: all.getOverallReportBudget(ProblemType.Green),
     rankings: all.getAllRankings(ProblemType.Green),
-    benchmarks: benchmarks.greenBenchmarks,
+    benchmarks: benchmarks[ProblemType.Green],
     publicGreenSpacePerCapita: null,
   };
 
@@ -64,7 +58,7 @@ export function getAlls(
     budgetPerYear: all.getReportBudgets(ProblemType.Water),
     budgetOverall: all.getOverallReportBudget(ProblemType.Water),
     rankings: all.getAllRankings(ProblemType.Water),
-    benchmarks: benchmarks.waterBenchmarks,
+    benchmarks: benchmarks[ProblemType.Water],
   };
 
   const airAll: AirAllReport = {
@@ -75,7 +69,7 @@ export function getAlls(
     budgetPerYear: all.getReportBudgets(ProblemType.Air),
     budgetOverall: all.getOverallReportBudget(ProblemType.Air),
     rankings: all.getAllRankings(ProblemType.Air),
-    benchmarks: benchmarks.airBenchmarks,
+    benchmarks: benchmarks[ProblemType.Air],
     sampling: getAirSamplingCount(all),
   };
 

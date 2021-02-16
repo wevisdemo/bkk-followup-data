@@ -25,7 +25,7 @@ Deno.test('DistrictGroup should sum every years\' budgets', () => {
         2556: mockYearRowForAirBudget(20),
       },
     )
-  ]);
+  ], 'all');
 
   assertEquals(area.getProblemBudgets(ProblemType.Air), { 2555: 110, 2556: 220 });
 });
@@ -42,7 +42,7 @@ Deno.test('DistrictGroup GetAllRankings should return rankings by district', () 
       mockExtractedDistrict('One'), 
       { 2555: mockYearRowForGreen(10) }
     )
-  ]).getAllRankings(ProblemType.Green);
+  ], 'all').getAllRankings(ProblemType.Green);
 
   assertEquals([
     { ranked: 1, districtId: 1, districtName: 'One', value: 10 },
@@ -62,7 +62,7 @@ Deno.test('DistrictGroup GetAllRankings should return rankings by district using
       mockExtractedDistrict('One'), 
       { 2555: mockYearRowForFlood(20, 30) }
     )
-  ]).getAllRankings(ProblemType.Green, (yr: YearRow) => yr.floodWaterLevel );
+  ], 'all').getAllRankings(ProblemType.Green, (yr: YearRow) => yr.floodWaterLevel );
 
   assertEquals([
     { ranked: 1, districtId: 1, districtName: 'One', value: 30 },

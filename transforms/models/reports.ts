@@ -1,4 +1,5 @@
 import { ProblemType } from '../../models/problem-type.ts';
+import { DistrictAreaType } from '../district-area.ts';
 import { BaseReport } from "./base-report.ts";
 import {
   FloodReport,
@@ -61,10 +62,17 @@ export interface AirSingleDistrictReport extends
 export interface ReportSuite {
   alls: {
     [ProblemType.Flood]: FloodAllReport,
+    [ProblemType.Waste]: WasteAllReport,
+    [ProblemType.Green]: GreenAllReport,
+    [ProblemType.Water]: WaterAllReport,
+    [ProblemType.Air]: AirAllReport,
   },
-  districts: {
-    residence: {
+  districts: { [key in DistrictAreaType]: {
       [ProblemType.Flood]: FloodDistrictAreaReport,
+      [ProblemType.Waste]: WasteDistrictAreaReport,
+      [ProblemType.Green]: GreenDistrictAreaReport,
+      [ProblemType.Water]: WaterDistrictAreaReport,
+      [ProblemType.Air]: AirDistrictAreaReport,
     }
   },
 }
