@@ -1,4 +1,4 @@
-import { ProblemType } from '../problem-type.ts';
+import { ProblemType } from '../../models/problem-type.ts';
 import { BaseReport } from "./base-report.ts";
 import {
   FloodReport,

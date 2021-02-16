@@ -1,5 +1,5 @@
 import { ReportBudget } from './models/base-report.ts';
-import { ProblemType } from './problem-type.ts';
+import { ProblemType } from '../models/problem-type.ts';
 
 export abstract class ReportBudgetable {
   abstract getProblemBudgets(problem: ProblemType | 'all'): { [key:number]: number };

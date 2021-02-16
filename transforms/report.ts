@@ -2,9 +2,9 @@
 import { YearReport } from '../extracts/year-report.ts';
 import { District as ExtractedDistrict } from '../extracts/district.ts';
 import { District } from './district.ts';
-import { YearRow } from '../extracts/year-row.ts';
+import { YearRow } from '../models/year-row.ts';
 import { AirAllReport, FloodAllReport, FloodDistrictAreaReport, GreenAllReport, ReportSuite, WasteAllReport, WaterAllReport } from './models/reports.ts';
-import { ProblemType } from './problem-type.ts';
+import { ProblemType } from '../models/problem-type.ts';
 import { DistrictGroup } from './district-group.ts';
 import { DistrictAreaBenchmark } from './models/zonetype-reports.ts';
 

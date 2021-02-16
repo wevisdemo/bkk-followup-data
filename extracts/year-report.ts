@@ -1,4 +1,4 @@
-import { YearRow } from './year-row.ts';
+import { YearRow } from '../models/year-row.ts';
 
 export interface YearReport {
   year: number;

@@ -4,8 +4,8 @@ import {
 import { District } from './district.ts';
 import { DistrictGroup } from './district-group.ts';
 import { District as ExtractedDistrict } from '../extracts/district.ts';
-import { YearRow } from '../extracts/year-row.ts';
-import { ProblemType } from './problem-type.ts';
+import { YearRow } from '../models/year-row.ts';
+import { ProblemType } from '../models/problem-type.ts';
 
 Deno.test('DistrictGroup should sum every years\' budgets', () => {
   const area = new DistrictGroup([

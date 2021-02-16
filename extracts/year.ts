@@ -1,6 +1,6 @@
 import { YearReport } from './year-report.ts';
 import { parse, ColumnOptions } from 'https://deno.land/std@0.86.0/encoding/csv.ts';
-import { YearRow } from './year-row.ts';
+import { YearRow } from '../models/year-row.ts';
 import { districtTypeParser, numberParser } from './utils.ts';
 
 const HEADER_ROW_COUNT = 2;

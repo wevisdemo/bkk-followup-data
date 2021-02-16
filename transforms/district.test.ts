@@ -2,9 +2,9 @@ import {
   assertEquals,
 } from "https://deno.land/std@0.86.0/testing/asserts.ts";
 import { District } from './district.ts';
-import { ProblemType } from './problem-type.ts';
+import { ProblemType } from '../models/problem-type.ts';
 import { District as ExtractedDistrict } from '../extracts/district.ts';
-import { YearRow } from '../extracts/year-row.ts';
+import { YearRow } from '../models/year-row.ts';
 
 Deno.test('District getMin and getMax should return correct min and max', () => {
   const dis = new District(

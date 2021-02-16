@@ -1,6 +1,6 @@
-import { YearRow } from '../extracts/year-row.ts';
+import { YearRow } from '../models/year-row.ts';
 import { District as ExtractedDistrict, DistrictAreaType } from '../extracts/district.ts';
-import { ProblemType } from './problem-type.ts';
+import { ProblemType } from '../models/problem-type.ts';
 import { ReportBudgetable } from './report-budgetable.ts';
 
 export class District extends ReportBudgetable {
