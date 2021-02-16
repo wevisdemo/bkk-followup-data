@@ -72,6 +72,14 @@ const columnOptions: ColumnOptions[] = [
     name: 'pop_density_max',
     parse: numberParser,
   },
+  {
+    name: 'pm25_over',
+    parse: numberParser,
+  },
+  {
+    name: 'pm25_measurement',
+    parse: numberParser,
+  },
 ];
 
 function floodSpotParser(i: string): string[] | null {

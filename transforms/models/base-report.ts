@@ -1,6 +1,6 @@
 export interface BaseReport {
-	meanValuePerCapita: number;
-	meanValuePerCapitaPerYear: {[key: number]: number}; // { "2555": 1.60 }
+	value: number;
+	valuePerYear: {[key: number]: number}; // { "2555": 1.60 }
 	minimumPoint: {
 		year: number;
 		districtId: number;

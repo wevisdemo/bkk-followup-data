@@ -62,4 +62,9 @@ export interface ReportSuite {
   alls: {
     [ProblemType.Flood]: FloodAllReport,
   },
+  districts: {
+    residence: {
+      [ProblemType.Flood]: FloodDistrictAreaReport,
+    }
+  },
 }

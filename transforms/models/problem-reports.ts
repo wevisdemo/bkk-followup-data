@@ -3,6 +3,7 @@ export interface FloodReport {
 		name: string;
 		description: string;
 	}[]; // [{ name: "ถนนรัชดาภิเษก", description: "บริเวณหน้าธนาคารกรุงเทพ" }]
+	frequency: number;
 }
 
 // deno-lint-ignore no-empty-interface

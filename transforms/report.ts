@@ -3,7 +3,7 @@ import { YearReport } from '../extracts/year-report.ts';
 import { District as ExtractedDistrict } from '../extracts/district.ts';
 import { District } from './district.ts';
 import { YearRow } from '../extracts/year-row.ts';
-import { FloodAllReport, ReportSuite } from './models/reports.ts';
+import { FloodAllReport, FloodDistrictAreaReport, ReportSuite } from './models/reports.ts';
 import { ProblemType } from './problem-type.ts';
 import { DistrictGroup } from './district-group.ts';
 
@@ -19,23 +19,46 @@ export function transformReports(
   const business = new DistrictGroup(districts.filter(d => d.type === 'business'));
   const suburban = new DistrictGroup(districts.filter(d => d.type === 'suburban'));
   const residence = new DistrictGroup(districts.filter(d => d.type === 'residence'));
-  const thorism = new DistrictGroup(districts.filter(d => d.type === 'tourism-and-cultural'));
+  const tourism = new DistrictGroup(districts.filter(d => d.type === 'tourism-and-cultural'));
 
-  const test: FloodAllReport = {
-    meanValuePerCapita: 0,
-    meanValuePerCapitaPerYear: {},
+  const floodAll: FloodAllReport = {
+    value: 0,
+    valuePerYear: {},
     minimumPoint: all.getMin(ProblemType.Flood),
     maximumPoint: all.getMax(ProblemType.Flood),
     budgetPerYear: all.getReportBudgets(ProblemType.Flood),
     budgetOverall: all.getOverallReportBudget(ProblemType.Flood),
-    rankings: all.getAllRankings(ProblemType.Flood),
+    rankings: all.getAllRankings(ProblemType.Flood, yr => yr.floodData1),
     floodHotspots: getFloodHotspots(all),
     benchmarks: [],
+    frequency: yearReports
+      .map(r => r.all.floodData1)
+      .reduce((prev, next) => (prev || 0) + (next || 0), 0) || 0,
+  };
+
+  const floodResidence: FloodDistrictAreaReport = {
+    value: 0,
+    valuePerYear: {},
+    minimumPoint: residence.getMin(ProblemType.Flood),
+    maximumPoint: residence.getMax(ProblemType.Flood),
+    budgetPerYear: residence.getReportBudgets(ProblemType.Flood),
+    budgetOverall: residence.getOverallReportBudget(ProblemType.Flood),
+    rankings: residence.getAllRankings(ProblemType.Flood, yr => yr.floodData1),
+    floodHotspots: getFloodHotspots(residence),
+    benchmarks: [],
+    frequency: yearReports
+      .map(r => r.districtGroups.find(g => g.district === 'residence')?.floodData1)
+      .reduce((prev, next) => (prev || 0) + (next || 0), 0) || 0,
   };
 
   return {
     alls: {
-      [ProblemType.Flood]: test,
+      [ProblemType.Flood]: floodAll,
+    },
+    districts: {
+      residence: {
+        [ProblemType.Flood]: floodResidence,
+      }
     }
   } as ReportSuite;
 }
