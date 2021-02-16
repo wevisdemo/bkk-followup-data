@@ -1,9 +1,15 @@
 import { ProblemType } from '../models/problem-type.ts';
 import { getAirSamplingCount } from './air.ts';
 import { District } from './district.ts';
-import { BaseReport } from './models/base-report.ts';
-import { AirSingleDistrictReport, FloodSingleDistrictReport, GreenSingleDistrictReport, WasteSingleDistrictReport, WaterSingleDistrictReport } from './models/reports.ts';
-import { SingleDistrictReport } from './models/zonetype-reports.ts';
+import { BaseReport } from '../models/base-report.ts';
+import {
+  AirSingleDistrictReport,
+  FloodSingleDistrictReport,
+  GreenSingleDistrictReport,
+  WasteSingleDistrictReport,
+  WaterSingleDistrictReport
+} from '../models/reports.ts';
+import { SingleDistrictReport } from '../models/zonetype-reports.ts';
 
 export function getSingleDistrict(
   district: District,

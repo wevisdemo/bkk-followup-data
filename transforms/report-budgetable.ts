@@ -1,4 +1,4 @@
-import { ReportBudget } from './models/base-report.ts';
+import { ReportBudget } from '../models/base-report.ts';
 import { ProblemType } from '../models/problem-type.ts';
 
 export abstract class ReportBudgetable {

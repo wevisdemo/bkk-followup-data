@@ -3,13 +3,14 @@ import { YearReport } from '../models/year-report.ts';
 import { District as ExtractedDistrict } from '../extracts/district.ts';
 import { District } from './district.ts';
 import { YearRow } from '../models/year-row.ts';
-import { ReportSuite } from './models/reports.ts';
+import { ReportSuite } from '../models/reports.ts';
 import { ProblemType } from '../models/problem-type.ts';
 import { DistrictGroup } from './district-group.ts';
 import { getBenchmarks } from './benchmarks.ts';
 import { getAlls } from './all.ts';
-import { DistrictAreaType, getDistrictArea } from './district-area.ts';
+import { getDistrictArea } from './district-area.ts';
 import { getSingleDistrict } from './single-district.ts';
+import { DistrictAreaType } from '../models/district-area-type.ts';
 
 export function transformReports(
   yearReports: YearReport[],

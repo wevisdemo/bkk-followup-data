@@ -1,5 +1,5 @@
-import { ProblemType } from '../../models/problem-type.ts';
-import { DistrictAreaType } from '../district-area.ts';
+import { ProblemType } from '../models/problem-type.ts';
+import { DistrictAreaType } from './district-area-type.ts';
 import { BaseReport } from "./base-report.ts";
 import {
   FloodReport,

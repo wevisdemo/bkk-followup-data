@@ -3,16 +3,16 @@ import { ProblemType } from '../models/problem-type.ts';
 import { getAirSamplingCount } from './air.ts';
 import { DistrictGroup } from './district-group.ts';
 import { getFloodHotspots } from './flood.ts';
-import { BaseReport } from './models/base-report.ts';
-import { AirDistrictAreaReport, FloodDistrictAreaReport, GreenDistrictAreaReport, WasteDistrictAreaReport, WaterDistrictAreaReport } from './models/reports.ts';
-import { DistrictAreaBenchmark, DistrictAreaReport } from './models/zonetype-reports.ts';
-
-export enum DistrictAreaType {
-  Residence = 'residence',
-  Suburban = 'suburban',
-  Tourism = 'tourism-and-cultural',
-  Business = 'business',
-}
+import { BaseReport } from '../models/base-report.ts';
+import {
+  AirDistrictAreaReport,
+  FloodDistrictAreaReport,
+  GreenDistrictAreaReport,
+  WasteDistrictAreaReport,
+  WaterDistrictAreaReport,
+} from '../models/reports.ts';
+import { DistrictAreaBenchmark, DistrictAreaReport } from '../models/zonetype-reports.ts';
+import { DistrictAreaType } from '../models/district-area-type.ts';
 
 export function getDistrictArea(
   group: DistrictGroup,

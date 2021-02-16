@@ -1,7 +1,7 @@
 import { YearReport } from '../models/year-report.ts';
 import { ProblemType } from '../models/problem-type.ts';
-import { DistrictAreaType } from './district-area.ts';
-import { DistrictAreaBenchmark } from './models/zonetype-reports.ts';
+import { DistrictAreaType } from '../models/district-area-type.ts';
+import { DistrictAreaBenchmark } from '../models/zonetype-reports.ts';
 
 export function getBenchmarks(latestYearReport: YearReport) {
   return {

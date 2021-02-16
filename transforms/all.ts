@@ -3,8 +3,8 @@ import { ProblemType } from '../models/problem-type.ts';
 import { getAirSamplingCount } from './air.ts';
 import { DistrictGroup } from './district-group.ts';
 import { getFloodHotspots } from './flood.ts';
-import { AirAllReport, FloodAllReport, GreenAllReport, WasteAllReport, WaterAllReport } from './models/reports.ts';
-import { DistrictAreaBenchmark } from './models/zonetype-reports.ts';
+import { AirAllReport, FloodAllReport, GreenAllReport, WasteAllReport, WaterAllReport } from '../models/reports.ts';
+import { DistrictAreaBenchmark } from '../models/zonetype-reports.ts';
 
 export function getAlls(
   all: DistrictGroup,
