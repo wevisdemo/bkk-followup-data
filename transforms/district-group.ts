@@ -91,7 +91,7 @@ export class DistrictGroup extends ReportBudgetable {
     const sorted = this.districts
       .filter(d => rankedByValueGetter!(d.latestYear) !== null)
       .sort((a, b) => 
-        (rankedByValueGetter!(a.latestYear) || 0)  - (rankedByValueGetter!(b.latestYear) || 0)
+        (rankedByValueGetter!(b.latestYear) || 0) - (rankedByValueGetter!(a.latestYear) || 0)
       );
   
     return sorted.map((d, i) => ({

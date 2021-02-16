@@ -57,8 +57,8 @@ Deno.test('District getRankings should return rankings in term of years', () => 
     }
   );
   assertEquals(dis.getRankings(ProblemType.Flood), [
-    { ranked: 1, year: 2556, value: 300 },
-    { ranked: 2, year: 2555, value: 400 },
+    { ranked: 1, year: 2555, value: 400 },
+    { ranked: 2, year: 2556, value: 300 },
   ]);
 });
 
@@ -73,8 +73,8 @@ Deno.test('District getRankings should return rankings of flood using frequency'
   );
 
   assertEquals(dis.getRankings(ProblemType.Flood), [
-    { ranked: 1, year: 2556, value: 1000 },
-    { ranked: 2, year: 2555, value: 2000 },
+    { ranked: 1, year: 2555, value: 2000 },
+    { ranked: 2, year: 2556, value: 1000 },
   ]);
 });
 
@@ -88,8 +88,8 @@ Deno.test('District getRankings should return rankings using custom rank functio
     }
   );
   assertEquals(dis.getRankings(ProblemType.Flood, (yr) => yr.floodWaterLevel ), [
-    { ranked: 1, year: 2556, value: 1000 },
-    { ranked: 2, year: 2555, value: 2000 },
+    { ranked: 1, year: 2555, value: 2000 },
+    { ranked: 2, year: 2556, value: 1000 },
   ]);
 });
 

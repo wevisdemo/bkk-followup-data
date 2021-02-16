@@ -45,8 +45,8 @@ Deno.test('DistrictGroup GetAllRankings should return rankings by district', () 
   ], 'all').getAllRankings(ProblemType.Green);
 
   assertEquals([
-    { ranked: 1, districtId: 1, districtName: 'One', value: 10 },
-    { ranked: 2, districtId: 0, districtName: 'Zero', value: 20 },
+    { ranked: 1, districtId: 0, districtName: 'Zero', value: 20 },
+    { ranked: 2, districtId: 1, districtName: 'One', value: 10 },
   ], rankings);
 });
 
@@ -65,8 +65,8 @@ Deno.test('DistrictGroup GetAllRankings should return rankings by district using
   ], 'all').getAllRankings(ProblemType.Green, (yr: YearRow) => yr.floodWaterLevel );
 
   assertEquals([
-    { ranked: 1, districtId: 1, districtName: 'One', value: 30 },
-    { ranked: 2, districtId: 0, districtName: 'Zero', value: 40 },
+    { ranked: 1, districtId: 0, districtName: 'Zero', value: 40 },
+    { ranked: 2, districtId: 1, districtName: 'One', value: 30 },
   ], rankings);
 });
 

@@ -125,7 +125,7 @@ export class District extends ReportBudgetable {
       });
     }
     return rankings
-      .sort((a, b) => (a.value || 0) - (b.value || 0))
+      .sort((a, b) => (b.value || 0) - (a.value || 0))
       .map((r, i) => ({
         ranked: i + 1,
         year: r.year,
