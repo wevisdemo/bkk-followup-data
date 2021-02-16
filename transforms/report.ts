@@ -189,7 +189,7 @@ function getAirSamplingCount(districtGroup: DistrictGroup): {
 function getAirSampling(district: District): number[] {
   const airSampling = [];
   for (const year in district.years) {
-    const value = district.valueOfYear(parseInt(year), ProblemType.Air);
+    const value = district.years[parseInt(year)].getValueOf(ProblemType.Air);
     if (value !== null) airSampling.push(value);
   }
   return airSampling;

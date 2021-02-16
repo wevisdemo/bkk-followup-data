@@ -84,7 +84,7 @@ export class DistrictGroup extends ReportBudgetable {
   }[] {
 
     if (!rankedByValueGetter) {
-      rankedByValueGetter = (yr: YearRow) => District.valueOfRow(yr, problem);
+      rankedByValueGetter = (yr: YearRow) => yr.getValueOf(problem);
     }
 
     const sorted = this.districts

@@ -20,27 +20,27 @@ export async function extractYear(csvPath: string, year: number): Promise<YearRe
     districts: rows.splice(2, rows.length - HEADER_ROW_COUNT - DISTRICT_GROUP_COUNT),
     districtGroups: rows
       .splice(rows.length - DISTRICT_GROUP_COUNT)
-      .map(r => ({ ...r, district: districtTypeParser(r.district!) as string })),
+      .map(r => { r.district = districtTypeParser(r.district!) as string; return r }),
   };
 }
 
 function yearRowParser(i: unknown): YearRow {
   const casted = i as Record<string, string | number | null>;
-  return {
-    district: casted['dist'] as string,
-    budgetTotal: casted['budget_total'] as number | null,
-    floodBudget: casted['flood_bud'] as number | null,
-    floodFrequency: casted['flood_data1'] as number | null,
-    wasteBudget: casted['waste_bud'] as number | null,
-    wasteData: casted['waste_data'] as number | null,
-    greenBudget: casted['green_bud'] as number | null,
-    greenData: casted['green_data'] as number | null,
-    waterBudget: casted['water_bud'] as number | null,
-    waterData: casted['water_data'] as number | null,
-    airBudget: casted['air_bud'] as number | null,
-    airData: casted['air_data'] as number | null,
-    floodWaterLevel: casted['flood_data2'] as number | null,
-  };
+  const yr = new YearRow();
+  yr.district = casted['dist'] as string;
+  yr.budgetTotal = casted['budget_total'] as number | null;
+  yr.floodBudget = casted['flood_bud'] as number | null;
+  yr.floodFrequency = casted['flood_data1'] as number | null;
+  yr.wasteBudget = casted['waste_bud'] as number | null;
+  yr.wasteData = casted['waste_data'] as number | null;
+  yr.greenBudget = casted['green_bud'] as number | null;
+  yr.greenData = casted['green_data'] as number | null;
+  yr.waterBudget = casted['water_bud'] as number | null;
+  yr.waterData = casted['water_data'] as number | null;
+  yr.airBudget = casted['air_bud'] as number | null;
+  yr.airData = casted['air_data'] as number | null;
+  yr.floodWaterLevel = casted['flood_data2'] as number | null;
+  return yr;
 }
 
 const columnOptions: ColumnOptions[] = [

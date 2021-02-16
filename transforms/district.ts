@@ -47,7 +47,7 @@ export class District extends ReportBudgetable {
     for (const year in this.years) {
       const value = rankedByValueGetter
         ? rankedByValueGetter(this.years[year])
-        : District.valueOfRow(this.years[year], problem);
+        : this.years[year].getValueOf(problem);
       if (value === null) continue;
       if (value < min) {
         min = value;
@@ -66,7 +66,7 @@ export class District extends ReportBudgetable {
     for (const year in this.years) {
       const value = rankedByValueGetter
       ? rankedByValueGetter(this.years[year])
-      : District.valueOfRow(this.years[year], problem);
+      : this.years[year].getValueOf(problem);
       if (value === null) continue;
       if (value > max) {
         max = value;
@@ -85,31 +85,6 @@ export class District extends ReportBudgetable {
       budgets[parseInt(year)] = budget;
     }
     return budgets;
-  }
-
-  valueOfYear(year: number, problem: ProblemType): number | null {
-    return District.valueOfRow(this.years[year], problem);
-  }
-
-  static valueOfRowGetter(problem: ProblemType) {
-    return (yr: YearRow) => {
-      switch (problem) {
-        case ProblemType.Flood:
-          return yr.floodFrequency;
-        case ProblemType.Waste:
-          return yr.wasteData;
-        case ProblemType.Green:
-          return yr.greenData;
-        case ProblemType.Water:
-          return yr.waterData;
-        case ProblemType.Air:
-          return yr.airData;
-      }
-    };
-  }
-
-  static valueOfRow(year: YearRow, problem: ProblemType): number | null {
-    return District.valueOfRowGetter(problem)(year);
   }
 
   budgetOfRow(year: YearRow, problem: ProblemType | 'all'): number | null {
@@ -138,7 +113,7 @@ export class District extends ReportBudgetable {
     for (const year in this.years) {
       rankings.push({
         year: parseInt(year),
-        value: rankedByValueGetter ? rankedByValueGetter(this.years[year]) : this.valueOfYear(parseInt(year), problem),
+        value: rankedByValueGetter ? rankedByValueGetter(this.years[year]) : this.years[parseInt(year)].getValueOf(problem),
       });
     }
     return rankings

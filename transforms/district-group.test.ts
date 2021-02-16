@@ -13,16 +13,16 @@ Deno.test('DistrictGroup should sum every years\' budgets', () => {
       0,
       {} as ExtractedDistrict,
       {
-        2555: { ...new YearRow(), airBudget: 100 },
-        2556: { ...new YearRow(), airBudget: 200 },
+        2555: mockYearRowForAirBudget(100),
+        2556: mockYearRowForAirBudget(200),
       },
     ),
     new District(
       1,
       {} as ExtractedDistrict,
       {
-        2555: { ...new YearRow(), airBudget: 10 },
-        2556: { ...new YearRow(), airBudget: 20 },
+        2555: mockYearRowForAirBudget(10),
+        2556: mockYearRowForAirBudget(20),
       },
     )
   ]);
@@ -35,14 +35,12 @@ Deno.test('DistrictGroup GetAllRankings should return rankings by district', () 
     new District(
       0,
       mockExtractedDistrict('Zero'), 
-      {
-        2555: { ...new YearRow(),  greenData: 20 },
-      }
+      { 2555: mockYearRowForGreen(20) }
     ),
     new District(
       1,
       mockExtractedDistrict('One'), 
-      { 2555: { ...new YearRow(),  greenData: 10 } }
+      { 2555: mockYearRowForGreen(10) }
     )
   ]).getAllRankings(ProblemType.Green);
 
@@ -57,12 +55,12 @@ Deno.test('DistrictGroup GetAllRankings should return rankings by district using
     new District(
       0,
       mockExtractedDistrict('Zero'), 
-      { 2555: { ...new YearRow(),  floodFrequency: 10, floodWaterLevel: 40 } }
+      { 2555: mockYearRowForFlood(10, 40) }
     ),
     new District(
       1,
       mockExtractedDistrict('One'), 
-      { 2555: { ...new YearRow(),  floodFrequency: 20, floodWaterLevel: 30 } }
+      { 2555: mockYearRowForFlood(20, 30) }
     )
   ]).getAllRankings(ProblemType.Green, (yr: YearRow) => yr.floodWaterLevel );
 
@@ -71,6 +69,25 @@ Deno.test('DistrictGroup GetAllRankings should return rankings by district using
     { ranked: 2, districtId: 0, districtName: 'Zero', value: 40 },
   ], rankings);
 });
+
+function mockYearRowForAirBudget(budget: number): YearRow {
+  const y = new YearRow();
+  y.airBudget = budget;
+  return y;
+}
+
+function mockYearRowForGreen(value: number): YearRow {
+  const y = new YearRow();
+  y.greenData = value;
+  return y;
+}
+
+function mockYearRowForFlood(frequency: number, level: number): YearRow {
+  const y = new YearRow();
+  y.floodFrequency = frequency;
+  y.floodWaterLevel = level;
+  return y;
+}
 
 function mockExtractedDistrict(name: string): ExtractedDistrict {
   return { 
