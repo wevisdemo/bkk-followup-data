@@ -1,4 +1,4 @@
-import { YearReport } from '../extracts/year-report.ts';
+import { YearReport } from '../models/year-report.ts';
 import { ProblemType } from '../models/problem-type.ts';
 import { getAirSamplingCount } from './air.ts';
 import { DistrictGroup } from './district-group.ts';

@@ -1,4 +1,4 @@
-import { YearReport } from './year-report.ts';
+import { YearReport } from '../models/year-report.ts';
 import { parse, ColumnOptions } from 'https://deno.land/std@0.86.0/encoding/csv.ts';
 import { YearRow } from '../models/year-row.ts';
 import { districtTypeParser, numberParser } from './utils.ts';

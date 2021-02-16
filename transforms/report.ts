@@ -1,5 +1,5 @@
 
-import { YearReport } from '../extracts/year-report.ts';
+import { YearReport } from '../models/year-report.ts';
 import { District as ExtractedDistrict } from '../extracts/district.ts';
 import { District } from './district.ts';
 import { YearRow } from '../models/year-row.ts';

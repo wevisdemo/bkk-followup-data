@@ -1,4 +1,4 @@
-import { YearReport } from '../extracts/year-report.ts';
+import { YearReport } from '../models/year-report.ts';
 import { ProblemType } from '../models/problem-type.ts';
 import { DistrictAreaType } from './district-area.ts';
 import { DistrictAreaBenchmark } from './models/zonetype-reports.ts';
