@@ -6,7 +6,7 @@ import { YearRow } from '../models/year-row.ts';
 import { AirAllReport, FloodAllReport, FloodDistrictAreaReport, GreenAllReport, ReportSuite, WasteAllReport, WaterAllReport } from './models/reports.ts';
 import { ProblemType } from '../models/problem-type.ts';
 import { DistrictGroup } from './district-group.ts';
-import { DistrictAreaBenchmark } from './models/zonetype-reports.ts';
+import { getBenchmarks } from './benchmarks.ts';
 
 const AIR_QUALITY_THRESHOLD = 1;
 
@@ -24,45 +24,13 @@ export function transformReports(
   const tourism = new DistrictGroup(districts.filter(d => d.type === 'tourism-and-cultural'));
   const business = new DistrictGroup(districts.filter(d => d.type === 'business'));
 
-  const floodBenchmarks = [
-    { zoneId: 'all', areaName: 'ทุกเขตในกรุงเทพมหานคร', value: latestYearReport.all.floodFrequency },
-    { zoneId: 'residence', areaName: 'ทุกเขตพื้นที่อยู่อาศัย', value: latestYearReport.districtGroups.find(g => g.district === 'residence')?.floodFrequency || null },
-    { zoneId: 'suburban', areaName: 'ทุกเขตพื้นที่อยู่อาศัยชานเมือง', value: latestYearReport.districtGroups.find(g => g.district === 'suburban')?.floodFrequency || null },
-    { zoneId: 'tourism-and-cultural', areaName: 'พื้นที่อนุรักษ์ศิลปวัฒนธรรมและส่งเสริมการท่องเที่ยว', value: latestYearReport.districtGroups.find(g => g.district === 'tourism-and-cultural')?.floodFrequency || null },
-    { zoneId: 'business', areaName: 'พื้นที่ศูนย์กลางธุรกิจและพาณิชยกรรม', value: latestYearReport.districtGroups.find(g => g.district === 'business')?.floodFrequency || null },
-  ] as DistrictAreaBenchmark[];
-
-  const wasteBenchmarks = [
-    { zoneId: 'all', areaName: 'ทุกเขตในกรุงเทพมหานคร', value: latestYearReport.all.wasteData },
-    { zoneId: 'residence', areaName: 'ทุกเขตพื้นที่อยู่อาศัย', value: latestYearReport.districtGroups.find(g => g.district === 'residence')?.wasteData || null },
-    { zoneId: 'suburban', areaName: 'ทุกเขตพื้นที่อยู่อาศัยชานเมือง', value: latestYearReport.districtGroups.find(g => g.district === 'suburban')?.wasteData || null },
-    { zoneId: 'tourism-and-cultural', areaName: 'พื้นที่อนุรักษ์ศิลปวัฒนธรรมและส่งเสริมการท่องเที่ยว', value: latestYearReport.districtGroups.find(g => g.district === 'tourism-and-cultural')?.wasteData || null },
-    { zoneId: 'business', areaName: 'พื้นที่ศูนย์กลางธุรกิจและพาณิชยกรรม', value: latestYearReport.districtGroups.find(g => g.district === 'business')?.wasteData || null },
-  ] as DistrictAreaBenchmark[];
-
-  const greenBenchmarks = [
-    { zoneId: 'all', areaName: 'ทุกเขตในกรุงเทพมหานคร', value: latestYearReport.all.greenData },
-    { zoneId: 'residence', areaName: 'ทุกเขตพื้นที่อยู่อาศัย', value: latestYearReport.districtGroups.find(g => g.district === 'residence')?.greenData || null },
-    { zoneId: 'suburban', areaName: 'ทุกเขตพื้นที่อยู่อาศัยชานเมือง', value: latestYearReport.districtGroups.find(g => g.district === 'suburban')?.greenData || null },
-    { zoneId: 'tourism-and-cultural', areaName: 'พื้นที่อนุรักษ์ศิลปวัฒนธรรมและส่งเสริมการท่องเที่ยว', value: latestYearReport.districtGroups.find(g => g.district === 'tourism-and-cultural')?.greenData || null },
-    { zoneId: 'business', areaName: 'พื้นที่ศูนย์กลางธุรกิจและพาณิชยกรรม', value: latestYearReport.districtGroups.find(g => g.district === 'business')?.greenData || null },
-  ] as DistrictAreaBenchmark[];
-
-  const waterBenchmarks = [
-    { zoneId: 'all', areaName: 'ทุกเขตในกรุงเทพมหานคร', value: latestYearReport.all.waterData },
-    { zoneId: 'residence', areaName: 'ทุกเขตพื้นที่อยู่อาศัย', value: latestYearReport.districtGroups.find(g => g.district === 'residence')?.waterData || null },
-    { zoneId: 'suburban', areaName: 'ทุกเขตพื้นที่อยู่อาศัยชานเมือง', value: latestYearReport.districtGroups.find(g => g.district === 'suburban')?.waterData || null },
-    { zoneId: 'tourism-and-cultural', areaName: 'พื้นที่อนุรักษ์ศิลปวัฒนธรรมและส่งเสริมการท่องเที่ยว', value: latestYearReport.districtGroups.find(g => g.district === 'tourism-and-cultural')?.waterData || null },
-    { zoneId: 'business', areaName: 'พื้นที่ศูนย์กลางธุรกิจและพาณิชยกรรม', value: latestYearReport.districtGroups.find(g => g.district === 'business')?.waterData || null },
-  ] as DistrictAreaBenchmark[];
-
-  const airBenchmarks = [
-    { zoneId: 'all', areaName: 'ทุกเขตในกรุงเทพมหานคร', value: latestYearReport.all.airData },
-    { zoneId: 'residence', areaName: 'ทุกเขตพื้นที่อยู่อาศัย', value: latestYearReport.districtGroups.find(g => g.district === 'residence')?.airData || null },
-    { zoneId: 'suburban', areaName: 'ทุกเขตพื้นที่อยู่อาศัยชานเมือง', value: latestYearReport.districtGroups.find(g => g.district === 'suburban')?.airData || null },
-    { zoneId: 'tourism-and-cultural', areaName: 'พื้นที่อนุรักษ์ศิลปวัฒนธรรมและส่งเสริมการท่องเที่ยว', value: latestYearReport.districtGroups.find(g => g.district === 'tourism-and-cultural')?.airData || null },
-    { zoneId: 'business', areaName: 'พื้นที่ศูนย์กลางธุรกิจและพาณิชยกรรม', value: latestYearReport.districtGroups.find(g => g.district === 'business')?.airData || null },
-  ] as DistrictAreaBenchmark[];
+  const {
+    floodBenchmarks,
+    wasteBenchmarks,
+    greenBenchmarks,
+    waterBenchmarks,
+    airBenchmarks,
+  } = getBenchmarks(latestYearReport);
 
   const floodAll: FloodAllReport = {
     value: latestYearReport.all.floodFrequency,
