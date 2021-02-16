@@ -18,7 +18,7 @@ export function transformReports(
   ): ReportSuite {
   yearReports.sort((a, b) => a.year - b.year);
   const latestYearReport = yearReports[yearReports.length - 1];
-  const districts = extractedDistricts.map((d, i) => getDistrict(yearReports, d, i));
+  const districts = extractedDistricts.map((d, i) => getDistrict(yearReports, d, i + 1));
   
   const all = new DistrictGroup(districts, 'all');
   const residence = new DistrictGroup(districts.filter(d => d.type === 'residence'), 'residence');
