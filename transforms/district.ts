@@ -113,7 +113,7 @@ export class District extends ReportBudgetable {
   static valueOfRow(year: YearRow, problem: ProblemType): number | null {
     switch (problem) {
       case ProblemType.Flood:
-        return year.floodData2;
+        return year.floodData1;
       case ProblemType.Waste:
         return year.wasteData;
       case ProblemType.Green:

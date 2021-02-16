@@ -11,8 +11,8 @@ Deno.test('District should set mins & maxes for each problems', () => {
     0,
     {} as ExtractedDistrict,
     {
-      2555: { ...new YearRow(), floodData2: 1 },
-      2556: { ...new YearRow(), floodData2: 2 },
+      2555: { ...new YearRow(), floodData1: 1 },
+      2556: { ...new YearRow(), floodData1: 2 },
     }
   );
 
@@ -48,13 +48,13 @@ Deno.test('District getRankings should return rankings in term of years', () => 
   ]);
 });
 
-Deno.test('District getRankings should return rankings of flood using max water level', () => {
+Deno.test('District getRankings should return rankings of flood using frequency', () => {
   const dis = new District(
     0,
     {} as ExtractedDistrict,
     {
-      2555: { ...new YearRow(), floodData1: 1100, floodData2: 2000 },
-      2556: { ...new YearRow(), floodData1: 1200, floodData2: 1000 },
+      2555: { ...new YearRow(), floodData1: 2000 },
+      2556: { ...new YearRow(), floodData1: 1000 },
     }
   );
 
@@ -73,8 +73,8 @@ Deno.test('District getRankings should return rankings using custom rank functio
       2556: { ...new YearRow(), floodData1: 1200, floodData2: 1000 },
     }
   );
-  assertEquals(dis.getRankings(ProblemType.Flood, (yr) => yr.floodData1 ), [
-    { ranked: 1, year: 2555, value: 1100 },
-    { ranked: 2, year: 2556, value: 1200 },
+  assertEquals(dis.getRankings(ProblemType.Flood, (yr) => yr.floodData2 ), [
+    { ranked: 1, year: 2556, value: 1000 },
+    { ranked: 2, year: 2555, value: 2000 },
   ]);
 });
