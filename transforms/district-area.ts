@@ -25,7 +25,7 @@ export function getDistrictArea(
     ...getReport(ProblemType.Flood, area, group, yearReports, latestYearReport, benchmarks),
     floodHotspots: getFloodHotspots(group),
     meanFloodLevel: latestYearReport.districtGroups.find(g => g.district === area)?.floodWaterLevel || null,
-    meanFloodLevelMaximumPoint: group.getMin(ProblemType.Flood, yr => yr.floodWaterLevel),
+    meanFloodLevelMaximumPoint: group.getMax(ProblemType.Flood, yr => yr.floodWaterLevel),
   };
 
   const waste: WasteDistrictAreaReport = {

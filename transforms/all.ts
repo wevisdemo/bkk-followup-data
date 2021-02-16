@@ -24,7 +24,7 @@ export function getAlls(
     floodHotspots: getFloodHotspots(all),
     benchmarks: benchmarks[ProblemType.Flood],
     meanFloodLevel: latestYearReport.all.floodWaterLevel,
-    meanFloodLevelMaximumPoint: all.getMin(ProblemType.Flood, yr => yr.floodWaterLevel),
+    meanFloodLevelMaximumPoint: all.getMax(ProblemType.Flood, yr => yr.floodWaterLevel),
   };
 
   const wasteAll: WasteAllReport = {

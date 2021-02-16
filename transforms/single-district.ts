@@ -40,7 +40,7 @@ export function getSingleDistrict(
         floodHotspots: district.floodHotspot,
         meanFloodLevel: district.latestYear.floodWaterLevel,
         meanFloodLevelMaximumPoint: {
-          ...district.getMinimumValue(ProblemType.Flood, yr => yr.floodWaterLevel)!,
+          ...district.getMaximumValue(ProblemType.Flood, yr => yr.floodWaterLevel)!,
           districtId: district.id,
           districtName: district.name
         },
