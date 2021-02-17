@@ -98,5 +98,7 @@ function mockExtractedDistrict(name: string): ExtractedDistrict {
     area: 0,
     minimumPopulationDensity: 0,
     maximumPopulationDensity: 0,
+    pm25MeasurementCount: null,
+    pm25OverThresholdCount: null,
   }; 
 }

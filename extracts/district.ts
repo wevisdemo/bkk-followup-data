@@ -33,6 +33,8 @@ export interface District {
   area: number;
   minimumPopulationDensity: number;
   maximumPopulationDensity: number;
+  pm25OverThresholdCount: number | null;
+  pm25MeasurementCount: number | null;
 }
 
 export type DistrictAreaType = 'residence' | 'suburban' | 'business' | 'tourism-and-cultural' | null;
@@ -51,6 +53,8 @@ function districtParser(i: unknown): District {
     area: casted['area'] as number,
     minimumPopulationDensity: casted['pop_density_min'] as number,
     maximumPopulationDensity: casted['pop_density_max'] as number,
+    pm25OverThresholdCount: casted['pm25_over'] as number | null,
+    pm25MeasurementCount: casted['pm25_measurement'] as number | null,
   };
 }
 

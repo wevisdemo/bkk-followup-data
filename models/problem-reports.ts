@@ -26,5 +26,5 @@ export interface AirReport {
 	sampling: {
 		count: number;
 		aboveThresholdCount: number;
-	};
+	} | null;
 }

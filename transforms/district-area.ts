@@ -1,6 +1,5 @@
 import { YearReport } from '../models/year-report.ts';
 import { ProblemType } from '../models/problem-type.ts';
-import { getAirSamplingCount } from './air.ts';
 import { DistrictGroup } from './district-group.ts';
 import { getFloodHotspots } from './flood.ts';
 import { BaseReport } from '../models/base-report.ts';
@@ -43,7 +42,10 @@ export function getDistrictArea(
 
   const air: AirDistrictAreaReport = {
     ...getReport(ProblemType.Air, area, group, yearReports, latestYearReport, benchmarks),
-    sampling: getAirSamplingCount(group),
+    sampling: group.extractedDistrict?.pm25MeasurementCount && group.extractedDistrict?.pm25OverThresholdCount ? {
+      count: group.extractedDistrict?.pm25MeasurementCount,
+      aboveThresholdCount: group.extractedDistrict?.pm25OverThresholdCount,
+    } : null,
   };
 
   return {

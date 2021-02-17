@@ -1,5 +1,4 @@
 import { ProblemType } from '../models/problem-type.ts';
-import { getAirSamplingCount } from './air.ts';
 import { District } from './district.ts';
 import { BaseReport } from '../models/base-report.ts';
 import {
@@ -57,7 +56,10 @@ export function getSingleDistrict(
       },
       [ProblemType.Air]: {
         ...getReport(ProblemType.Air, district, rankings),
-        sampling: getAirSamplingCount(district),
+        sampling: district.pm25MeasurementCount !== null && district.pm25OverThresholdCount !== null ? {
+          count: district.pm25MeasurementCount,
+          aboveThresholdCount: district.pm25OverThresholdCount,
+        } : null,
       }
     }
   };

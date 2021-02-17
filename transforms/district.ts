@@ -12,6 +12,8 @@ export class District extends ReportBudgetable {
 		description: string;
   }[];
   latestYear: YearRow;
+  pm25OverThresholdCount: number | null;
+  pm25MeasurementCount: number | null;
 
   constructor(
     public id: number,
@@ -23,7 +25,9 @@ export class District extends ReportBudgetable {
     this.type = district.type;
     this.publicGreenSpace = district.publicGreenSpace;
     this.floodHotspot = district.floodHotspot;
-
+    this.pm25OverThresholdCount = district.pm25OverThresholdCount;
+    this.pm25MeasurementCount = district.pm25MeasurementCount;
+    
     this.latestYear = this.years[this.getLatestYear()];
   }
 

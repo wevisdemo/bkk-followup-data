@@ -1,6 +1,5 @@
 import { YearReport } from '../models/year-report.ts';
 import { ProblemType } from '../models/problem-type.ts';
-import { getAirSamplingCount } from './air.ts';
 import { DistrictGroup } from './district-group.ts';
 import { getFloodHotspots } from './flood.ts';
 import { AirAllReport, FloodAllReport, GreenAllReport, WasteAllReport, WaterAllReport } from '../models/reports.ts';
@@ -79,7 +78,10 @@ export function getAlls(
     budgetOverall: allBudget.getOverallReportBudget(ProblemType.Air),
     rankings: all.getAllRankings(ProblemType.Air),
     benchmarks: benchmarks[ProblemType.Air],
-    sampling: getAirSamplingCount(all),
+    sampling: all.extractedDistrict?.pm25MeasurementCount && all.extractedDistrict?.pm25OverThresholdCount ? {
+      count: all.extractedDistrict?.pm25MeasurementCount,
+      aboveThresholdCount: all.extractedDistrict?.pm25OverThresholdCount,
+    } : null,
   };
 
   return {
