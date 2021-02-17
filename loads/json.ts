@@ -2,6 +2,7 @@ import { BaseReport } from '../models/base-report.ts';
 import { Maps } from '../models/map.ts';
 import { ProblemType } from '../models/problem-type.ts';
 import { ReportSuite } from '../models/reports.ts';
+import { District as ExtractedDistrict } from '../extracts/district.ts';
 
 export async function loadReportSuiteToJsonFiles(suite: ReportSuite, path = '.') {
   await writeReports(suite.alls, path, 'all');
@@ -36,5 +37,16 @@ export async function loadMapsToJsonFiles(maps: Maps, path = '.') {
     Deno.writeTextFile(`${path}/map_water.json`, JSON.stringify(maps[ProblemType.Water], null, 2)),
     Deno.writeTextFile(`${path}/map_air.json`, JSON.stringify(maps[ProblemType.Air], null, 2)), 
   ]);
-  
+}
+
+export async function loadDistrictsToJsonFiles(districts: ExtractedDistrict[], path = '.') {
+  const mapped = districts.map(d => ({
+    id: d.id,
+    name: d.district,
+    districtType: d.type,
+    areaSize: d.area,
+    minimumPopulationDensity: d.minimumPopulationDensity,
+    maximumPopluationDensity: d.maximumPopulationDensity,
+  }));
+  return Deno.writeTextFile(`${path}/districts.json`, JSON.stringify(mapped, null, 2));
 }
