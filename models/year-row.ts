@@ -29,4 +29,21 @@ export class YearRow {
         return this.airData;
     }
   }
+
+  getBudget(problem: ProblemType | 'all'): number | null {
+    switch (problem) {
+      case ProblemType.Flood:
+        return this.floodBudget;
+      case ProblemType.Waste:
+        return this.wasteBudget;
+      case ProblemType.Green:
+        return this.greenBudget;
+      case ProblemType.Water:
+        return this.waterBudget;
+      case ProblemType.Air:
+        return this.airBudget;
+      case 'all':
+        return this.budgetTotal;
+    }
+  }
 }

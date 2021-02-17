@@ -34,19 +34,6 @@ Deno.test('District getMin and getMax should be able to use custom sort function
   assertEquals(dis.getMaximumValue(ProblemType.Flood, yr => yr.floodWaterLevel), { year: 2555, value: 15 });
 });
 
-Deno.test('District should set budgets for each problems and all', () => {
-  const dis = new District(
-    0,
-    {} as ExtractedDistrict,
-    {
-      2555: mockYearRowForFlood(0, 0, 100),
-      2556: mockYearRowForFlood(0, 0, 200),
-    }
-  );
-
-  assertEquals(dis.budgets[ProblemType.Flood], { 2555: 100, 2556: 200 });
-});
-
 Deno.test('District getRankings should return rankings in term of years', () => {
   const dis = new District(
     0,

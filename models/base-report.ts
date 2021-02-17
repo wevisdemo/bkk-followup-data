@@ -18,6 +18,6 @@ export interface BaseReport {
 }
 
 export interface ReportBudget {
-	all: number;
-	focused: number;
+	all: number | null;
+	focused: number | null;
 }

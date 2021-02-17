@@ -2,7 +2,7 @@ import { ReportBudget } from '../models/base-report.ts';
 import { ProblemType } from '../models/problem-type.ts';
 
 export abstract class ReportBudgetable {
-  abstract getProblemBudgets(problem: ProblemType | 'all'): { [key:number]: number };
+  abstract getProblemBudgets(problem: ProblemType | 'all'): { [key:number]: number | null };
 
   getOverallReportBudget(focusedProblem: ProblemType): ReportBudget {
     const focused = this.getProblemBudgets(focusedProblem);
@@ -11,8 +11,8 @@ export abstract class ReportBudgetable {
     let overallFocused = 0;
     let overallAll = 0;
     for (const year in focused) {
-      overallAll += all[year];
-      overallFocused += focused[year];
+      overallAll += all[year] || 0;
+      overallFocused += focused[year] || 0;
     }
   
     return { all: overallAll, focused: overallFocused };

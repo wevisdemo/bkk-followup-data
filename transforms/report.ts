@@ -35,10 +35,8 @@ export function transformReports(
     [ProblemType.Air]: all.getAllRankings(ProblemType.Air),
   };
 
-  const alls = getAlls(all, yearReports, latestYearReport, benchmarks);
-
   return {
-    alls,
+    alls: getAlls(all, yearReports, latestYearReport, benchmarks),
     areas: {
       residence: getDistrictArea(residence, DistrictAreaType.Residence, yearReports, latestYearReport, benchmarks),
       suburban: getDistrictArea(suburban, DistrictAreaType.Suburban, yearReports, latestYearReport, benchmarks),

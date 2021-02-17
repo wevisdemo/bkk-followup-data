@@ -66,7 +66,7 @@ export class DistrictGroup extends ReportBudgetable {
   getProblemBudgets(problem: ProblemType | 'all'): {[key:number]: number} {
     const budgets: {[key:number]: number} = {};
     for (const district of this.districts) {
-      const eachDistrict = district.budgets[problem];
+      const eachDistrict = district.getProblemBudgets(problem);
       for (const year in eachDistrict) {
         if (!budgets[year]) {
           budgets[year] = 0;
