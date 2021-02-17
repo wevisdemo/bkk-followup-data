@@ -34,7 +34,7 @@ export function getDistrictArea(
 
   const green: GreenDistrictAreaReport = {
     ...getReport(ProblemType.Green, area, group, yearReports, latestYearReport, benchmarks),
-    publicGreenSpacePerCapita: null,
+    publicGreenSpacePerCapita: group.extractedDistrict?.publicGreenSpace || null,
   };
 
   const water: WaterDistrictAreaReport = {

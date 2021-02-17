@@ -56,7 +56,7 @@ export function getAlls(
     budgetOverall: allBudget.getOverallReportBudget(ProblemType.Green),
     rankings: all.getAllRankings(ProblemType.Green),
     benchmarks: benchmarks[ProblemType.Green],
-    publicGreenSpacePerCapita: null,
+    publicGreenSpacePerCapita: all.extractedDistrict?.publicGreenSpace || null,
   };
 
   const waterAll: WaterAllReport = {

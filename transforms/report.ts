@@ -15,16 +15,34 @@ import { DistrictAreaType } from '../models/district-area-type.ts';
 export function transformReports(
   yearReports: YearReport[],
   extractedDistricts: ExtractedDistrict[],
+  allDistrict: ExtractedDistrict,
+  districtAreas: ExtractedDistrict[],
   ): ReportSuite {
   yearReports.sort((a, b) => a.year - b.year);
   const latestYearReport = yearReports[yearReports.length - 1];
   const districts = extractedDistricts.map((d, i) => getDistrict(yearReports, d, i + 1));
   
-  const all = new DistrictGroup(districts, 'all');
-  const residence = new DistrictGroup(districts.filter(d => d.type === 'residence'), 'residence');
-  const suburban = new DistrictGroup(districts.filter(d => d.type === 'suburban'), 'suburban');
-  const tourism = new DistrictGroup(districts.filter(d => d.type === 'tourism-and-cultural'), 'tourism-and-cultural');
-  const business = new DistrictGroup(districts.filter(d => d.type === 'business'), 'business');
+  const all = new DistrictGroup(districts, 'all', allDistrict);
+  const residence = new DistrictGroup(
+    districts.filter(d => d.type === 'residence'),
+    'residence',
+    districtAreas.find(a => a.district === 'residence')
+  );
+  const suburban = new DistrictGroup(
+    districts.filter(d => d.type === 'suburban'),
+    'suburban',
+    districtAreas.find(a => a.district === 'suburban')
+  );
+  const tourism = new DistrictGroup(
+    districts.filter(d => d.type === 'tourism-and-cultural'),
+    'tourism-and-cultural',
+    districtAreas.find(a => a.district === 'tourism-and-cultural')
+  );
+  const business = new DistrictGroup(
+    districts.filter(d => d.type === 'business'),
+    'business',
+    districtAreas.find(a => a.district === 'business')
+  );
 
   const benchmarks = getBenchmarks(latestYearReport);
   const rankings = {

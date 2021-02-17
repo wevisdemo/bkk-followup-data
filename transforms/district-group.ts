@@ -2,11 +2,13 @@ import { YearRow } from '../models/year-row.ts';
 import { District } from './district.ts';
 import { ProblemType } from '../models/problem-type.ts';
 import { ReportBudgetable } from './report-budgetable.ts';
+import { District as ExtractedDistrict } from '../extracts/district.ts';
 
 export class DistrictGroup extends ReportBudgetable {
   constructor(
     public readonly districts: District[],
     public readonly name: string,
+    public readonly extractedDistrict?: ExtractedDistrict,
   ) {
     super();
   }

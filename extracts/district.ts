@@ -1,7 +1,11 @@
 import { parse, ColumnOptions } from 'https://deno.land/std@0.86.0/encoding/csv.ts';
 import { districtTypeParser, numberParser } from './utils.ts';
 
-export async function extractDistricts(csvPath: string): Promise<District[]> {
+export async function extractDistricts(csvPath: string): Promise<{
+  districts: District[],
+  all: District,
+  districtAreas: District[],
+  }> {
   const raw = await (await fetch(csvPath)).text();
   const districts = await parse(raw, {
     skipFirstRow: true,
@@ -9,7 +13,13 @@ export async function extractDistricts(csvPath: string): Promise<District[]> {
     parse: districtParser,
   }) as District[];
 
-  return districts;
+  return {
+    districts,
+    all: districts.splice(districts.length - 1)[0],
+    districtAreas: districts
+      .splice(districts.length - 4)
+      .map(a => ({ ...a, district: districtTypeParser(a.district) } as District)),
+  };
 }
 
 export interface District {

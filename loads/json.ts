@@ -5,7 +5,7 @@ import { ReportSuite } from '../models/reports.ts';
 export async function loadToJsonFiles(suite: ReportSuite, path = '.') {
   await writeReports(suite.alls, path, 'all');
   await writeReports(suite.areas.residence, path, 'residence');
-  await writeReports(suite.areas.suburban, path, 'residence');
+  await writeReports(suite.areas.suburban, path, 'suburban');
   await writeReports(suite.areas['tourism-and-cultural'], path, 'tourism-and-cultural');
   await writeReports(suite.areas.business, path, 'business');
   for (const d of suite.districts) {
