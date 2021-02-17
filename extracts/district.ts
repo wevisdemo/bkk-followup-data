@@ -12,6 +12,7 @@ export async function extractDistricts(csvPath: string): Promise<{
     columns: columnOptions,
     parse: districtParser,
   }) as District[];
+  districts.forEach((e, i) => e.id = i + 1);
 
   return {
     districts,
@@ -23,6 +24,7 @@ export async function extractDistricts(csvPath: string): Promise<{
 }
 
 export interface District {
+  id: number;
   district: string;
   type: DistrictAreaType;
   publicGreenSpace: number;
@@ -42,6 +44,7 @@ export type DistrictAreaType = 'residence' | 'suburban' | 'business' | 'tourism-
 function districtParser(i: unknown): District {
   const casted = i as Record<string, unknown>;
   return {
+    id: 0,
     district: casted['district'] as string,
     type: casted['group'] as DistrictAreaType,
     publicGreenSpace: casted['access_green'] as number,

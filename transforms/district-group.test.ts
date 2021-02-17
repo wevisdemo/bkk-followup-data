@@ -10,7 +10,6 @@ import { ProblemType } from '../models/problem-type.ts';
 Deno.test('DistrictGroup should sum every years\' budgets', () => {
   const area = new DistrictGroup([
     new District(
-      0,
       {} as ExtractedDistrict,
       {
         2555: mockYearRowForAirBudget(100),
@@ -18,7 +17,6 @@ Deno.test('DistrictGroup should sum every years\' budgets', () => {
       },
     ),
     new District(
-      1,
       {} as ExtractedDistrict,
       {
         2555: mockYearRowForAirBudget(10),
@@ -33,13 +31,11 @@ Deno.test('DistrictGroup should sum every years\' budgets', () => {
 Deno.test('DistrictGroup GetAllRankings should return rankings by district', () => {
   const rankings = new DistrictGroup([
     new District(
-      0,
-      mockExtractedDistrict('Zero'), 
+      mockExtractedDistrict('Zero', 0), 
       { 2555: mockYearRowForGreen(20) }
     ),
     new District(
-      1,
-      mockExtractedDistrict('One'), 
+      mockExtractedDistrict('One', 1), 
       { 2555: mockYearRowForGreen(10) }
     )
   ], 'all').getAllRankings(ProblemType.Green);
@@ -53,13 +49,11 @@ Deno.test('DistrictGroup GetAllRankings should return rankings by district', () 
 Deno.test('DistrictGroup GetAllRankings should return rankings by district using custom sort by value getter', () => {
   const rankings = new DistrictGroup([
     new District(
-      0,
-      mockExtractedDistrict('Zero'), 
+      mockExtractedDistrict('Zero', 0), 
       { 2555: mockYearRowForFlood(10, 40) }
     ),
     new District(
-      1,
-      mockExtractedDistrict('One'), 
+      mockExtractedDistrict('One', 1), 
       { 2555: mockYearRowForFlood(20, 30) }
     )
   ], 'all').getAllRankings(ProblemType.Green, (yr: YearRow) => yr.floodWaterLevel );
@@ -89,8 +83,9 @@ function mockYearRowForFlood(frequency: number, level: number): YearRow {
   return y;
 }
 
-function mockExtractedDistrict(name: string): ExtractedDistrict {
+function mockExtractedDistrict(name: string, id: number): ExtractedDistrict {
   return { 
+    id,
     district: name,
     type: 'suburban',
     publicGreenSpace: 0,

@@ -1,8 +1,9 @@
 import { BaseReport } from '../models/base-report.ts';
+import { Maps } from '../models/map.ts';
 import { ProblemType } from '../models/problem-type.ts';
 import { ReportSuite } from '../models/reports.ts';
 
-export async function loadToJsonFiles(suite: ReportSuite, path = '.') {
+export async function loadReportSuiteToJsonFiles(suite: ReportSuite, path = '.') {
   await writeReports(suite.alls, path, 'all');
   await writeReports(suite.areas.residence, path, 'residence');
   await writeReports(suite.areas.suburban, path, 'suburban');
@@ -25,4 +26,15 @@ function writeReports(
       Deno.writeTextFile(`${path}/report_water_${zone}.json`, JSON.stringify(reports[ProblemType.Water], null, 2)),
       Deno.writeTextFile(`${path}/report_air_${zone}.json`, JSON.stringify(reports[ProblemType.Air], null, 2)), 
     ]);
+}
+
+export async function loadMapsToJsonFiles(maps: Maps, path = '.') {
+  return Promise.all([
+    Deno.writeTextFile(`${path}/map_flood.json`, JSON.stringify(maps[ProblemType.Flood], null, 2)),
+    Deno.writeTextFile(`${path}/map_waste.json`, JSON.stringify(maps[ProblemType.Waste], null, 2)),
+    Deno.writeTextFile(`${path}/map_green.json`, JSON.stringify(maps[ProblemType.Green], null, 2)),
+    Deno.writeTextFile(`${path}/map_water.json`, JSON.stringify(maps[ProblemType.Water], null, 2)),
+    Deno.writeTextFile(`${path}/map_air.json`, JSON.stringify(maps[ProblemType.Air], null, 2)), 
+  ]);
+  
 }

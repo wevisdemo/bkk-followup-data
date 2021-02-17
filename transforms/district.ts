@@ -4,6 +4,7 @@ import { ProblemType } from '../models/problem-type.ts';
 import { ReportBudgetable } from './report-budgetable.ts';
 
 export class District extends ReportBudgetable {
+  id: number;
   name: string;
   type: DistrictAreaType;
   publicGreenSpace: number;
@@ -16,11 +17,11 @@ export class District extends ReportBudgetable {
   pm25MeasurementCount: number | null;
 
   constructor(
-    public id: number,
     district: ExtractedDistrict,
     public years: { [key: number]: YearRow }
   ) {
     super();
+    this.id = district.id;
     this.name = district.district;
     this.type = district.type;
     this.publicGreenSpace = district.publicGreenSpace;

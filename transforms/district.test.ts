@@ -8,7 +8,6 @@ import { YearRow } from '../models/year-row.ts';
 
 Deno.test('District getMin and getMax should return correct min and max', () => {
   const dis = new District(
-    0,
     {} as ExtractedDistrict,
     {
       2555: mockYearRowForFlood(1),
@@ -22,7 +21,6 @@ Deno.test('District getMin and getMax should return correct min and max', () => 
 
 Deno.test('District getMin and getMax should be able to use custom sort function', () => {
   const dis = new District(
-    0,
     {} as ExtractedDistrict,
     {
       2555: mockYearRowForFlood(1, 15),
@@ -36,7 +34,6 @@ Deno.test('District getMin and getMax should be able to use custom sort function
 
 Deno.test('District getRankings should return rankings in term of years', () => {
   const dis = new District(
-    0,
     {} as ExtractedDistrict,
     {
       2555: mockYearRowForFlood(400),
@@ -51,7 +48,6 @@ Deno.test('District getRankings should return rankings in term of years', () => 
 
 Deno.test('District getRankings should return rankings of flood using frequency', () => {
   const dis = new District(
-    0,
     {} as ExtractedDistrict,
     {
       2555: mockYearRowForFlood(2000, 1),
@@ -67,7 +63,6 @@ Deno.test('District getRankings should return rankings of flood using frequency'
 
 Deno.test('District getRankings should return rankings using custom rank function', () => {
   const dis = new District(
-    0,
     {} as ExtractedDistrict,
     {
       2555: mockYearRowForFlood(1100, 2000),
