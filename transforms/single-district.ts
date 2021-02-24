@@ -9,6 +9,7 @@ import {
   WaterSingleDistrictReport
 } from '../models/reports.ts';
 import { SingleDistrictReport } from '../models/zonetype-reports.ts';
+import { YearRanking } from './year-ranking.ts';
 
 export function getSingleDistrict(
   district: District,
@@ -19,7 +20,8 @@ export function getSingleDistrict(
       districtName: string;
       value: number;
     }[]
-  }): {
+  },
+  yearRanking: YearRanking): {
   id: number,
   name: string,
   problems: {
@@ -35,7 +37,7 @@ export function getSingleDistrict(
     name: district.name,
     problems: {
       [ProblemType.Flood]: {
-        ...getReport(ProblemType.Flood, district, rankings),
+        ...getReport(ProblemType.Flood, district, rankings, yearRanking),
         floodHotspots: district.floodHotspot,
         meanFloodLevel: district.latestYear.floodWaterLevel,
         meanFloodLevelMaximumPoint: {
@@ -45,17 +47,17 @@ export function getSingleDistrict(
         },
       },
       [ProblemType.Waste]: {
-        ...getReport(ProblemType.Waste, district, rankings),
+        ...getReport(ProblemType.Waste, district, rankings, yearRanking),
       },
       [ProblemType.Green]: {
-        ...getReport(ProblemType.Green, district, rankings),
+        ...getReport(ProblemType.Green, district, rankings, yearRanking),
         publicGreenSpacePerCapita: district.publicGreenSpace,
       },
       [ProblemType.Water]: {
-        ...getReport(ProblemType.Water, district, rankings),
+        ...getReport(ProblemType.Water, district, rankings, yearRanking),
       },
       [ProblemType.Air]: {
-        ...getReport(ProblemType.Air, district, rankings),
+        ...getReport(ProblemType.Air, district, rankings, yearRanking),
         sampling: district.pm25MeasurementCount !== null && district.pm25OverThresholdCount !== null ? {
           count: district.pm25MeasurementCount,
           aboveThresholdCount: district.pm25OverThresholdCount,
@@ -75,7 +77,8 @@ function getReport(
       districtName: string;
       value: number;
     }[]
-  }): GenericSingleDistrictReport {
+  },
+  yearRanking: YearRanking): GenericSingleDistrictReport {
   return {
     value: district.latestYear.getValueOf(problem),
     valuePerYear: district.getValuePerYear(problem),
@@ -84,7 +87,7 @@ function getReport(
     budgetPerYear: district.getReportBudgets(problem),
     budgetOverall: district.getOverallReportBudget(problem),
     ranked: getRanked(problem, district.id, rankings)?.ranked || null,
-    rankings: district.getRankings(problem),
+    rankings: district.getRankings(problem, yearRanking),
   };
 }
 

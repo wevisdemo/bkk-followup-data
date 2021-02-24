@@ -11,6 +11,7 @@ import { getAlls } from './all.ts';
 import { getDistrictArea } from './district-area.ts';
 import { getSingleDistrict } from './single-district.ts';
 import { DistrictAreaType } from '../models/district-area-type.ts';
+import { getYearRankings } from './year-ranking.ts';
 
 export function transformReports(
   yearReports: YearReport[],
@@ -53,6 +54,8 @@ export function transformReports(
     [ProblemType.Air]: all.getAllRankings(ProblemType.Air),
   };
 
+  const yearRanking = getYearRankings(yearReports);
+
   return {
     alls: getAlls(all, yearReports, latestYearReport, benchmarks),
     areas: {
@@ -61,7 +64,7 @@ export function transformReports(
       'tourism-and-cultural': getDistrictArea(tourism, DistrictAreaType.Tourism, yearReports, latestYearReport, benchmarks),
       business: getDistrictArea(business, DistrictAreaType.Business, yearReports, latestYearReport, benchmarks),
     },
-    districts: districts.map(d => getSingleDistrict(d, rankings)),
+    districts: districts.map(d => getSingleDistrict(d, rankings, yearRanking)),
   } as ReportSuite;
 }
 

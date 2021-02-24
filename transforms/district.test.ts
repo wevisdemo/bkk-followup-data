@@ -32,47 +32,68 @@ Deno.test('District getMin and getMax should be able to use custom sort function
   assertEquals(dis.getMaximumValue(ProblemType.Flood, yr => yr.floodWaterLevel), { year: 2555, value: 15 });
 });
 
-Deno.test('District getRankings should return rankings in term of years', () => {
+Deno.test('District getRankings should return rankings using provided year rankings', () => {
   const dis = new District(
-    {} as ExtractedDistrict,
+    { district: 'Thawi Watthana' } as ExtractedDistrict,
     {
       2555: mockYearRowForFlood(400),
+    }
+  );
+  assertEquals(dis.getRankings(ProblemType.Flood, { 
+    2555: {
+      [ProblemType.Flood]: ['A', 'B', 'Thawi Watthana', 'D'],
+      [ProblemType.Waste]: [], 
+      [ProblemType.Green]: [], 
+      [ProblemType.Water]: [], 
+      [ProblemType.Air]: [], 
+    }}), [
+    { ranked: 3, year: 2555, value: 400 },
+  ]);
+});
+
+Deno.test('District getRankings should not return rankings in that problem when its value is null', () => {
+  const dis = new District(
+    { district: 'Thawi Watthana' } as ExtractedDistrict,
+    {
+      2555: mockYearRowForFlood(400),
+    }
+  );
+  assertEquals(dis.getRankings(ProblemType.Air, { 
+    2555: {
+      [ProblemType.Flood]: ['A', 'B', 'Thawi Watthana', 'D'],
+      [ProblemType.Waste]: [], 
+      [ProblemType.Green]: [], 
+      [ProblemType.Water]: [], 
+      [ProblemType.Air]: [], 
+    }}), []);
+});
+
+Deno.test('District getRankings should return rankings sorted from year asc', () => {
+  const dis = new District(
+    { district: 'Thawi Watthana' } as ExtractedDistrict,
+    {
       2556: mockYearRowForFlood(300),
+      2555: mockYearRowForFlood(400),
     }
   );
-  assertEquals(dis.getRankings(ProblemType.Flood), [
-    { ranked: 1, year: 2555, value: 400 },
-    { ranked: 2, year: 2556, value: 300 },
-  ]);
-});
-
-Deno.test('District getRankings should return rankings of flood using frequency', () => {
-  const dis = new District(
-    {} as ExtractedDistrict,
-    {
-      2555: mockYearRowForFlood(2000, 1),
-      2556: mockYearRowForFlood(1000, 2),
-    }
-  );
-
-  assertEquals(dis.getRankings(ProblemType.Flood), [
-    { ranked: 1, year: 2555, value: 2000 },
-    { ranked: 2, year: 2556, value: 1000 },
-  ]);
-});
-
-Deno.test('District getRankings should return rankings using custom rank function', () => {
-  const dis = new District(
-    {} as ExtractedDistrict,
-    {
-      2555: mockYearRowForFlood(1100, 2000),
-      2556: mockYearRowForFlood(1200, 1000),
-    }
-  );
-  assertEquals(dis.getRankings(ProblemType.Flood, (yr) => yr.floodWaterLevel ), [
-    { ranked: 1, year: 2555, value: 2000 },
-    { ranked: 2, year: 2556, value: 1000 },
-  ]);
+  assertEquals(dis.getRankings(ProblemType.Flood, { 
+    2556: {
+      [ProblemType.Flood]: ['A', 'Thawi Watthana', 'C', 'D'],
+      [ProblemType.Waste]: [], 
+      [ProblemType.Green]: [], 
+      [ProblemType.Water]: [], 
+      [ProblemType.Air]: [], 
+    },
+    2555: {
+      [ProblemType.Flood]: ['A', 'B', 'Thawi Watthana', 'D'],
+      [ProblemType.Waste]: [], 
+      [ProblemType.Green]: [], 
+      [ProblemType.Water]: [], 
+      [ProblemType.Air]: [], 
+    }}), [
+      { ranked: 3, year: 2555, value: 400 },
+      { ranked: 2, year: 2556, value: 300 },
+    ]);
 });
 
 function mockYearRowForFlood(frequency: number, level?: number, budget?: number): YearRow {

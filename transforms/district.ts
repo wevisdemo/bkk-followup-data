@@ -2,6 +2,7 @@ import { YearRow } from '../models/year-row.ts';
 import { District as ExtractedDistrict, DistrictAreaType } from '../extracts/district.ts';
 import { ProblemType } from '../models/problem-type.ts';
 import { ReportBudgetable } from './report-budgetable.ts';
+import { YearRanking } from './year-ranking.ts';
 
 export class District extends ReportBudgetable {
   id: number;
@@ -87,25 +88,29 @@ export class District extends ReportBudgetable {
     return budgets;
   }
   
-  getRankings(problem: ProblemType, rankedByValueGetter?: (yr: YearRow) => number | null): {
+  getRankings(problem: ProblemType, yearRanking: YearRanking): {
 		ranked: number;
 		year: number;
 		value: number | null;
 	}[] {
-    const rankings: { year: number, value: number | null}[] = [];
-    for (const year in this.years) {
-      rankings.push({
+    const ranking = [] as {
+      ranked: number;
+      year: number;
+      value: number | null;
+    }[];
+    const years = Object.keys(yearRanking).sort();
+    for (const year of years) {
+      const index = yearRanking[parseInt(year)][problem].indexOf(this.name);
+      if (index === -1) {
+        continue;
+      }
+      ranking.push({
+        ranked: index + 1,
         year: parseInt(year),
-        value: rankedByValueGetter ? rankedByValueGetter(this.years[year]) : this.years[parseInt(year)].getValueOf(problem),
+        value: this.years[parseInt(year)].getValueOf(problem),
       });
     }
-    return rankings
-      .sort((a, b) => (b.value || 0) - (a.value || 0))
-      .map((r, i) => ({
-        ranked: i + 1,
-        year: r.year,
-        value: r.value,
-      }));
+    return ranking;
   }
 
   getLatestYear(): number {

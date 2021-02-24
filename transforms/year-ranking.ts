@@ -1,11 +1,13 @@
 import { ProblemType } from '../models/problem-type.ts';
 import { YearReport } from '../models/year-report.ts';
 
-export function getYearRankings(yearReports: YearReport[]): {
+export type YearRanking = {
   [key:number]: {
     [key in ProblemType]: string[]
   }
-} {
+};
+
+export function getYearRankings(yearReports: YearReport[]): YearRanking {
   const rankingsByYear = {} as {
     [key:number]: {
       [key in ProblemType]: string[]
