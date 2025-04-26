@@ -1,5 +1,5 @@
 import { YearReport } from '../models/year-report.ts';
-import { parse, ColumnOptions } from 'https://deno.land/std@0.86.0/encoding/csv.ts';
+import { parse } from 'https://deno.land/std@0.224.0/csv/parse.ts';
 import { YearRow } from '../models/year-row.ts';
 import { districtTypeParser, numberParser } from './utils.ts';
 
@@ -10,89 +10,51 @@ export async function extractYear(csvPath: string, year: number): Promise<YearRe
   const raw = await (await fetch(csvPath)).text();
   const rows = await parse(raw, {
     skipFirstRow: true,
-    columns: columnOptions,
-    parse: yearRowParser,
-  }) as YearRow[];
+    columns,
+  });
+
+  const mapped: YearRow[] = rows.map(yearRowParser)
 
   return {
     year,
-    all: rows[1],
-    districts: rows.splice(2, rows.length - HEADER_ROW_COUNT - DISTRICT_GROUP_COUNT),
-    districtGroups: rows
+    all: mapped[1],
+    districts: mapped.splice(2, rows.length - HEADER_ROW_COUNT - DISTRICT_GROUP_COUNT),
+    districtGroups: mapped
       .splice(rows.length - DISTRICT_GROUP_COUNT)
       .map(r => { r.district = districtTypeParser(r.district!) as string; return r }),
   };
 }
 
-function yearRowParser(i: unknown): YearRow {
-  const casted = i as Record<string, string | number | null>;
+function yearRowParser(i: Record<string, string | undefined>): YearRow {
   const yr = new YearRow();
-  yr.district = casted['dist'] as string;
-  yr.budgetTotal = casted['budget_total'] as number | null;
-  yr.floodBudget = casted['flood_bud'] as number | null;
-  yr.floodFrequency = casted['flood_data1'] as number | null;
-  yr.wasteBudget = casted['waste_bud'] as number | null;
-  yr.wasteData = casted['waste_data'] as number | null;
-  yr.greenBudget = casted['green_bud'] as number | null;
-  yr.greenData = casted['green_data'] as number | null;
-  yr.waterBudget = casted['water_bud'] as number | null;
-  yr.waterData = casted['water_data'] as number | null;
-  yr.airBudget = casted['air_bud'] as number | null;
-  yr.airData = casted['air_data'] as number | null;
-  yr.floodWaterLevel = casted['flood_data2'] as number | null;
+  yr.district = i['dist'];
+  yr.budgetTotal = numberParser(i['budget_total']);
+  yr.floodBudget = numberParser(i['flood_bud']);
+  yr.floodFrequency = numberParser(i['flood_data1']);
+  yr.wasteBudget = numberParser(i['waste_bud']);
+  yr.wasteData = numberParser(i['waste_data']);
+  yr.greenBudget = numberParser(i['green_bud']);
+  yr.greenData = numberParser(i['green_data']);
+  yr.waterBudget = numberParser(i['water_bud']);
+  yr.waterData = numberParser(i['water_data']);
+  yr.airBudget = numberParser(i['air_bud']);
+  yr.airData = numberParser(i['air_data']);
+  yr.floodWaterLevel = numberParser(i['flood_data2']);
   return yr;
 }
 
-const columnOptions: ColumnOptions[] = [
-  {
-    name: 'dist'
-  }, 
-  {
-    name: 'budget_total',
-    parse: numberParser,
-  },
-  {
-    name: 'flood_bud',
-    parse: numberParser,
-  },
-  {
-    name: 'flood_data1',
-    parse: numberParser,
-  },
-  {
-    name: 'waste_bud',
-    parse: numberParser,
-  },
-  {
-    name: 'waste_data',
-    parse: numberParser,
-  },
-  {
-    name: 'green_bud',
-    parse: numberParser,
-  },
-  {
-    name: 'green_data',
-    parse: numberParser,
-  },
-  {
-    name: 'water_bud',
-    parse: numberParser,
-  },
-  {
-    name: 'water_data',
-    parse: numberParser,
-  },
-  {
-    name: 'air_bud',
-    parse: numberParser,
-  },
-  {
-    name: 'air_data',
-    parse: numberParser,
-  },
-  {
-    name: 'flood_data2',
-    parse: numberParser,
-  },
+const columns = [
+  'dist',
+  'budget_total',
+  'flood_bud',
+  'flood_data1',
+  'waste_bud',
+  'waste_data',
+  'green_bud',
+  'green_data',
+  'water_bud',
+  'water_data',
+  'air_bud',
+  'air_data',
+  'flood_data2',
 ];

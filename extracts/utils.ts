@@ -1,11 +1,14 @@
 import { DistrictAreaType } from './district.ts';
 
-export function numberParser(i: string): number | null {
+export function numberParser(i: string | undefined): number | null {
+  if (i === undefined) {
+    return null
+  }
   const parsed = parseFloat(i.replaceAll(',', ''));
   return isNaN(parsed) ? null : parsed;
 }
 
-export function districtTypeParser(i: string): DistrictAreaType {
+export function districtTypeParser(i?: string): DistrictAreaType {
   switch (i) {
     case 'พื้นที่ศูนย์กลางธุรกิจและพาณิชยกรรม':
       return 'business';

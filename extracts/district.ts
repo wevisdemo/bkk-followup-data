@@ -1,4 +1,4 @@
-import { parse, ColumnOptions } from 'https://deno.land/std@0.86.0/encoding/csv.ts';
+import { parse } from 'https://deno.land/std@0.224.0/csv/parse.ts';
 import { districtTypeParser, numberParser } from './utils.ts';
 
 export async function extractDistricts(csvPath: string): Promise<{
@@ -9,16 +9,16 @@ export async function extractDistricts(csvPath: string): Promise<{
   const raw = await (await fetch(csvPath)).text();
   const districts = await parse(raw, {
     skipFirstRow: true,
-    columns: columnOptions,
-    parse: districtParser,
-  }) as District[];
-  districts.forEach((e, i) => e.id = i + 1);
+    columns,
+  });
+  const mapped = districts.map(districtParser);
+  mapped.forEach((e, i) => e.id = i + 1);
 
   return {
-    districts,
-    all: districts.splice(districts.length - 1)[0],
-    districtAreas: districts
-      .splice(districts.length - 4)
+    districts: mapped,
+    all: mapped.splice(districts.length - 1)[0],
+    districtAreas: mapped
+      .splice(mapped.length - 4)
       .map(a => ({ ...a, district: districtTypeParser(a.district) } as District)),
   };
 }
@@ -41,66 +41,40 @@ export interface District {
 
 export type DistrictAreaType = 'residence' | 'suburban' | 'business' | 'tourism-and-cultural' | null;
 
-function districtParser(i: unknown): District {
-  const casted = i as Record<string, unknown>;
+function districtParser(i: Record<string, string | undefined>): District {
   return {
     id: 0,
-    district: casted['district'] as string,
-    type: casted['group'] as DistrictAreaType,
-    publicGreenSpace: casted['access_green'] as number,
+    district: i['district'] as string,
+    type: districtTypeParser(i['group']),
+    publicGreenSpace: numberParser(i['access_green']) || 0,
     floodHotspot: 
-      (casted['flood_spot'] as string[])?.map((e: string) => ({
+      floodSpotParser(i['flood_spot'])?.map((e: string) => ({
         name: e.split(',')[0].trim(),
         description: e.split(',')[1].trim(),
-      })),
-    area: casted['area'] as number,
-    minimumPopulationDensity: casted['pop_density_min'] as number,
-    maximumPopulationDensity: casted['pop_density_max'] as number,
-    pm25OverThresholdCount: casted['pm25_over'] as number | null,
-    pm25MeasurementCount: casted['pm25_measurement'] as number | null,
+      })) || [],
+    area: numberParser(i['area']) || 0,
+    minimumPopulationDensity: numberParser(i['pop_density_min']) || 0,
+    maximumPopulationDensity: numberParser(i['pop_density_max']) || 0,
+    pm25OverThresholdCount: numberParser(i['pm25_over']),
+    pm25MeasurementCount: numberParser(i['pm25_measurement']),
   };
 }
 
-const columnOptions: ColumnOptions[] = [
-  {
-    name: 'district'
-  }, 
-  {
-    name: 'group',
-    parse: districtTypeParser,
-  },
-  {
-    name: 'access_green',
-    parse: numberParser,
-  },
-  {
-    name: 'flood_spot',
-    parse: floodSpotParser,
-  },
-  {
-    name: 'area',
-    parse: numberParser,
-  },
-  {
-    name: 'pop_density_min',
-    parse: numberParser,
-  },
-  {
-    name: 'pop_density_max',
-    parse: numberParser,
-  },
-  {
-    name: 'pm25_over',
-    parse: numberParser,
-  },
-  {
-    name: 'pm25_measurement',
-    parse: numberParser,
-  },
+const columns = [
+  'district',
+  'group',
+  'access_green',
+  'flood_spot',
+  'area',
+  'pop_density_min',
+  'pop_density_max',
+  'pm25_over',
+  'pm25_measurement',
 ];
 
-function floodSpotParser(i: string): string[] | null {
-  if (i.length === 0) {
+
+function floodSpotParser(i?: string): string[] | null {
+  if (i === undefined || i.length === 0) {
     return null;
   }
   return i.split('\n').map(e => e.replaceAll('- ', ''));
