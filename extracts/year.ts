@@ -20,7 +20,7 @@ export async function extractYear(csvPath: string, year: number): Promise<YearRe
     all: mapped[1],
     districts: mapped.splice(2, rows.length - HEADER_ROW_COUNT - DISTRICT_GROUP_COUNT),
     districtGroups: mapped
-      .splice(rows.length - DISTRICT_GROUP_COUNT)
+      .splice(mapped.length - DISTRICT_GROUP_COUNT)
       .map(r => { r.district = districtTypeParser(r.district!) as string; return r }),
   };
 }

@@ -18,7 +18,7 @@ export async function extractDistricts(csvPath: string): Promise<{
     districts: mapped,
     all: mapped.splice(districts.length - 1)[0],
     districtAreas: mapped
-      .splice(mapped.length - 4)
+      .splice(mapped.length - 5)
       .map(a => ({ ...a, district: districtTypeParser(a.district) } as District)),
   };
 }
