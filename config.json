@@ -14,5 +14,7 @@
     "2566": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRFNKE7-jHKD5NFsXUaxBrjdqsm4fPdan2ERfRiQWzqwvWlO-kkrNQEwtqHoa2wBS1aP6tQ0IQENo8O/pub?gid=224571186&single=true&output=csv",
     "2567": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRFNKE7-jHKD5NFsXUaxBrjdqsm4fPdan2ERfRiQWzqwvWlO-kkrNQEwtqHoa2wBS1aP6tQ0IQENo8O/pub?gid=1767123398&single=true&output=csv"
   },
-  "districtSheet": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRFNKE7-jHKD5NFsXUaxBrjdqsm4fPdan2ERfRiQWzqwvWlO-kkrNQEwtqHoa2wBS1aP6tQ0IQENo8O/pub?gid=1821808703&single=true&output=csv"
+  "districtSheet": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRFNKE7-jHKD5NFsXUaxBrjdqsm4fPdan2ERfRiQWzqwvWlO-kkrNQEwtqHoa2wBS1aP6tQ0IQENo8O/pub?gid=1821808703&single=true&output=csv",
+  "populationSheet": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRFNKE7-jHKD5NFsXUaxBrjdqsm4fPdan2ERfRiQWzqwvWlO-kkrNQEwtqHoa2wBS1aP6tQ0IQENo8O/pub?gid=863882906&single=true&output=csv",
+  "budgetFrameworkSheet": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRFNKE7-jHKD5NFsXUaxBrjdqsm4fPdan2ERfRiQWzqwvWlO-kkrNQEwtqHoa2wBS1aP6tQ0IQENo8O/pub?gid=623849788&single=true&output=csv"
 }
