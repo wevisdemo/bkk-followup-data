@@ -61,6 +61,10 @@ export function transformLanding(
             title: "การบริหารจัดการและบริหารราชการ",
             value: y.adminBudget,
           },
+          {
+            title: "เศรษฐกิจและการพาณิชย์",
+            value: y.commercialBudget,
+          },
         ],
       };
     }),

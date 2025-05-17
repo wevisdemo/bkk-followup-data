@@ -3,6 +3,7 @@ export class Config {
   districtSheet: string;
   populationSheet: string;
   budgetFrameworkSheet: string;
+  dashboardStaticSheet: string;
 
 
   constructor(path: string) {
@@ -11,5 +12,6 @@ export class Config {
     this.districtSheet = raw.districtSheet;
     this.populationSheet = raw.populationSheet;
     this.budgetFrameworkSheet = raw.budgetFrameworkSheet;
+    this.dashboardStaticSheet = raw.dashboardStaticSheet;
   }
 }

@@ -4,6 +4,7 @@ import { ProblemType } from '../models/problem-type.ts';
 import { ReportSuite } from '../models/reports.ts';
 import { District as ExtractedDistrict } from '../extracts/district.ts';
 import { Landing } from '../models/landing.ts';
+import { DashboardStaticData } from '../models/dashboard-static-data.ts';
 
 export async function loadReportSuiteToJsonFiles(suite: ReportSuite, path = '.') {
   await writeReports(suite.alls, path, 'all');
@@ -54,4 +55,8 @@ export async function loadDistrictsToJsonFiles(districts: ExtractedDistrict[], p
 
 export function loadLandingToJsonFile(landing: Landing, path = '.') {
   return Deno.writeTextFile(`${path}/landing.json`, JSON.stringify(landing, null, 2));
+}
+
+export function loadDashboardStaticToJsonFile(dashboardStatic: DashboardStaticData, path = '.') {
+  return Deno.writeTextFile(`${path}/dashboard.json`, JSON.stringify(dashboardStatic, null, 2));
 }

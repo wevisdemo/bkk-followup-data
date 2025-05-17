@@ -43,5 +43,9 @@ export interface YearlyBudgetSummary {
       title: "การบริหารจัดการและบริหารราชการ";
       value: number;
     },
+        {
+      title: "เศรษฐกิจและการพาณิชย์";
+      value: number;
+    },
   ];
 };
