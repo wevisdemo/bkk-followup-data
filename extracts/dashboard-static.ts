@@ -33,6 +33,9 @@ const columns = ["title", "value"];
 const numberRowKeys = [
   "green.perCapita",
   "green.accessiblePerCapita",
+  "green.standard",
+  "water.standard",
   "air.latestYearAverage",
+  "air.standard",
   "waste.nationwidePerCapita",
 ];

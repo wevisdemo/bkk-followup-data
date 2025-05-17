@@ -11,9 +11,14 @@ export function transformDashboardStatic(
       date: guardString(input["green.date"]),
       perCapita: guardNumber(input["green.perCapita"]),
       accessiblePerCapita: guardNumber(input["green.accessiblePerCapita"]),
+      standard: guardNumber(input["green.standard"]),
+    },
+    water: {
+      standard: guardNumber(input["water.standard"]),
     },
     air: {
       latestYearAverage: guardNumber(input["air.latestYearAverage"]),
+      standard: guardNumber(input["air.standard"]),
     },
     waste: {
       nationwidePerCapita: getWasteNationwidePerCapita(input),
